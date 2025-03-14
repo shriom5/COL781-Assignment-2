@@ -220,6 +220,8 @@ namespace COL781 {
         }
 
         void Rasterizer::drawObject(const Object &object) {
+            glEnable(GL_POLYGON_OFFSET_FILL);
+            glPolygonOffset(1.f, 1.f);
             glBindVertexArray(object.vao);
             glDrawElements(GL_TRIANGLES, 3*object.nTris, GL_UNSIGNED_INT, 0);
             glCheckError();
@@ -236,9 +238,9 @@ namespace COL781 {
         }
 
         void Rasterizer::setupWireFrame() {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            glEnable(GL_POLYGON_OFFSET_LINE);
-            glPolygonOffset(-1.f, -1.f);
+            // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            // glEnable(GL_POLYGON_OFFSET_LINE);
+            // glPolygonOffset(10.f, 10.f);
             glLineWidth(2.5f);
         }
 
@@ -298,21 +300,30 @@ namespace COL781 {
                 "out vec4 fColor;\n"
                 "uniform vec3 lightPos, viewPos;\n"
                 "uniform vec3 lightColor;\n"
-                "uniform vec3 ambientColor, diffuseColor, specularColor;\n"
+                "uniform vec3 ambientColor, specularColor;\n"
+                "uniform vec3 intdiffuseColor, extdiffuseColor;\n"
                 "uniform float phongExponent;\n"
                 "void main() {\n"
-                "vec3 I = pow(lightColor, vec3(2.2));\n"
-                "vec3 ka = pow(ambientColor, vec3(2.2));\n"
-                "vec3 kd = pow(diffuseColor, vec3(2.2));\n"
-                "vec3 n = normalize(Normal);\n"
-                "vec3 l = normalize(lightPos - FragPos);\n"
-                "vec3 diffuse = I * kd * max(dot(n, l), 0.0);\n"
-                "vec3 ks = pow(specularColor, vec3(2.2))\n;"
-                "vec3 v = normalize(viewPos - FragPos);\n"
-                "vec3 h = normalize(v + l);\n"
-                "vec3 specular = I * ks * pow(max(dot(n, h), 0.0), phongExponent);\n"
-                "vec3 result = pow(ka + diffuse + specular, vec3(1./2.2)); \n"
-                "fColor = vec4(result, 1.0);\n"
+                    "vec3 I = pow(lightColor, vec3(2.2));\n"
+                    "vec3 ka = pow(ambientColor, vec3(2.2));\n"
+                    "vec3 kdint = pow(intdiffuseColor, vec3(2.2));\n"
+                    "vec3 kdext = pow(extdiffuseColor, vec3(2.2));\n"
+                    "vec3 n = normalize(Normal);\n"
+                    "vec3 result = vec3(0.0, 0.0, 0.0);\n" 
+                    "if(length(n) > 0.1) {\n"
+                        "vec3 l = normalize(lightPos - FragPos);\n"
+                        "vec3 diffuseext = I * kdext * max(dot(n, l), 0.0);\n"
+                        "vec3 diffuseint = I * kdint * max(dot(-n, l), 0.0);\n"
+                        "vec3 ks = pow(specularColor, vec3(2.2))\n;"
+                        "vec3 v = normalize(viewPos - FragPos);\n"
+                        "vec3 h = normalize(v + l);\n"
+                        "vec3 specular = I * ks * pow(max(dot(n, h), 0.0), phongExponent);\n"
+                        "result = pow(ka + diffuseint + diffuseext + specular, vec3(1./2.2)); \n"
+                    "}\n"
+                    "else {\n"
+                        "result = pow(ka, vec3(1./2.2));\n"
+                    "}\n"
+                    "fColor = vec4(result, 1.0);\n"
                 "}\n";
             return createShader(GL_FRAGMENT_SHADER, source);
         }
