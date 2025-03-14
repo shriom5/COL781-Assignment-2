@@ -2,6 +2,8 @@
 #include "viewer.hpp"
 #include <iostream>
 #include <glm/glm.hpp>
+#include <glm/gtx/polar_coordinates.hpp>
+#include <glm/gtc/constants.hpp>
 #include <vector>
 #include <map>
 #include <fstream>

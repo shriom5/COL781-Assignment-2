@@ -373,7 +373,13 @@ CMakeFiles/viewer.dir/src/halfedge.cpp.o: \
  /usr/include/c++/9/bits/locale_facets.tcc \
  /usr/include/c++/9/bits/basic_ios.tcc \
  /usr/include/c++/9/bits/ostream.tcc /usr/include/c++/9/istream \
- /usr/include/c++/9/bits/istream.tcc /usr/include/c++/9/vector \
+ /usr/include/c++/9/bits/istream.tcc \
+ /usr/include/glm/gtx/polar_coordinates.hpp \
+ /usr/include/glm/gtx/polar_coordinates.inl \
+ /usr/include/glm/gtc/constants.hpp \
+ /usr/include/glm/ext/scalar_constants.hpp \
+ /usr/include/glm/ext/scalar_constants.inl \
+ /usr/include/glm/gtc/constants.inl /usr/include/c++/9/vector \
  /usr/include/c++/9/bits/stl_construct.h \
  /usr/include/c++/9/bits/stl_uninitialized.h \
  /usr/include/c++/9/bits/stl_vector.h \

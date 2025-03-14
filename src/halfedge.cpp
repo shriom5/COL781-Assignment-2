@@ -200,30 +200,33 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         renderEdges[i]=currEdge;
     }
 
-    std::cout<<totalVertices<<" "<<numberOfTriangles<<" "<<numberofEdges<<std::endl;
+    //Debug code
 
-    std::cout<<"vertices"<<std::endl;
+    // std::cout<<totalVertices<<" "<<numberOfTriangles<<" "<<numberofEdges<<std::endl;
 
-    for(int i=0;i<totalVertices;i++)
-    {
-        std::cout<<renderVertices[i].x<<" "<<renderVertices[i].y<<" "<<renderVertices[i].z<<std::endl;
-    }
+    // std::cout<<"vertices"<<std::endl;
 
-    std::cout<<"triangles"<<std::endl;
+    // for(int i=0;i<totalVertices;i++)
+    // {
+    //     std::cout<<renderVertices[i].x<<" "<<renderVertices[i].y<<" "<<renderVertices[i].z<<std::endl;
+    // }
 
-    for(int i=0;i<numberOfTriangles;i++)
-    {
-        std::cout<<renderTriangles[i].x<<" "<<renderTriangles[i].y<<" "<<renderTriangles[i].z<<std::endl;
-    }
+    // std::cout<<"triangles"<<std::endl;
 
-    std::cout<<"normals"<<std::endl;
+    // for(int i=0;i<numberOfTriangles;i++)
+    // {
+    //     std::cout<<renderTriangles[i].x<<" "<<renderTriangles[i].y<<" "<<renderTriangles[i].z<<std::endl;
+    // }
 
-    for(int i=0;i<totalVertices;i++)
-    {
-        std::cout<<renderNormals[i].x<<" "<<renderNormals[i].y<<" "<<renderNormals[i].z<<std::endl;
-    }
+    // std::cout<<"normals"<<std::endl;
+
+    // for(int i=0;i<totalVertices;i++)
+    // {
+    //     std::cout<<renderNormals[i].x<<" "<<renderNormals[i].y<<" "<<renderNormals[i].z<<std::endl;
+    // }
 
     viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
 
     viewer.view();
+    
 }
