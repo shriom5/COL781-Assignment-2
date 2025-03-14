@@ -9,29 +9,43 @@
 
 using namespace glm;
 
+class HalfEdge;
+class MeshFace;
+class MeshVertex;
+
 class HalfEdge{
     public:
         HalfEdge *next;
         HalfEdge *twin;
         int vertexIndex;
-};
-
-class MeshVertex{
-    public:
-        HalfEdge *edge;
+        MeshFace *face;
 };
 
 class MeshFace{
     public:
         HalfEdge *edge;
         vec3 normal;
+        std::vector<int> getFaceVertices();
+};
+
+class MeshVertex{
+    public:
+        HalfEdge *edge;
+        vec3 position;
+        //boundary check
+        std::vector<HalfEdge*> getAdjacentFaces();
 };
 
 class Mesh{
     public:
-    std::vector<HalfEdge> halfEdges;
+    std::vector<HalfEdge*> halfEdges;
     std::vector<MeshVertex> vertices;
     std::vector<MeshFace> faces;
+
+    std::vector<ivec3> triangles;
+    std::vector<ivec2> edges;
+    std::vector<vec3> normals;
+    std::vector<std::vector<int>> vertexPerFace;
 
     void getEdges();
     void triangulate();
