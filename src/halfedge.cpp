@@ -1,5 +1,27 @@
 #include "halfedge.hpp"
 
+/*
+Functions for half edge data structure
+*/
+
+HalfEdge::HalfEdge(int index)
+{
+    this->next=NULL;
+    this->twin=NULL;
+    this->vertexIndex=index;
+    this->face=NULL;
+}
+
+/*
+Functions for MeshFace
+*/
+
+MeshFace::MeshFace(HalfEdge *edge, vec3 normal)
+{
+    this->edge=edge;
+    this->normal=normal;
+}
+
 std::vector<int> MeshFace::getFaceVertices()
 {
     std::vector<int> faceVertices;
@@ -13,6 +35,16 @@ std::vector<int> MeshFace::getFaceVertices()
     } while (current!=start);
 
     return faceVertices;
+}
+
+/*
+Functions for MeshVertex
+*/
+
+MeshVertex::MeshVertex(HalfEdge *edge, vec3 position)
+{
+    this->edge=edge;
+    this->position=position;
 }
 
 std::vector<HalfEdge*> MeshVertex::getAdjacentFaces()
@@ -37,6 +69,17 @@ std::vector<HalfEdge*> MeshVertex::getAdjacentFaces()
     }while(current!=start);
 
     return adjacentFaces;
+}
+
+/*
+Functions for Mesh
+*/
+
+Mesh::Mesh(std::vector<HalfEdge*> halfEdges, std::vector<MeshVertex> vertices, std::vector<MeshFace> faces)
+{
+    this->halfEdges=halfEdges;
+    this->vertices=vertices;
+    this->faces=faces;
 }
 
 void Mesh::getEdges()
@@ -72,12 +115,12 @@ void Mesh::triangulate()
         vertexPerFace.emplace_back(faceVertices);
         normals.emplace_back(face.normal);
         int n = faceVertices.size();
-        for(int i=0;i<n-1;i++)
+        for(int i=0;i<n-2;i++)
         {
             ivec3 triangle;
             triangle.x = faceVertices[0];
-            triangle.y = faceVertices[i];
-            triangle.z = faceVertices[i+1];
+            triangle.y = faceVertices[i+1];
+            triangle.z = faceVertices[i+2];
             triangles.emplace_back(triangle);
         }
     }
@@ -94,6 +137,8 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         totalVertices+=x.size();
     }
 
+    // std::cout<<totalVertices<<std::endl;
+
     std::map<int,int> alias;
     int count=0;
     for(auto const x:vertexPerFace)
@@ -107,6 +152,11 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
             count++;
         }
     }
+
+    // for(auto x:alias)
+    // {
+    //     std::cout<<x.first<<" "<<x.second<<std::endl;
+    // }
 
     if(count!=totalVertices)
     {
@@ -129,8 +179,8 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         {
             ivec3 currTriangle;
             currTriangle.x=count;
-            currTriangle.y=count+i;
-            currTriangle.z=count+i+1;
+            currTriangle.y=count+i+1;
+            currTriangle.z=count+i+2;
             renderTriangles[triangleCount]=currTriangle;
             triangleCount++;
         }
@@ -148,6 +198,29 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         currEdge.x=alias[this->edges[i].x];
         currEdge.y=alias[this->edges[i].y];
         renderEdges[i]=currEdge;
+    }
+
+    std::cout<<totalVertices<<" "<<numberOfTriangles<<" "<<numberofEdges<<std::endl;
+
+    std::cout<<"vertices"<<std::endl;
+
+    for(int i=0;i<totalVertices;i++)
+    {
+        std::cout<<renderVertices[i].x<<" "<<renderVertices[i].y<<" "<<renderVertices[i].z<<std::endl;
+    }
+
+    std::cout<<"triangles"<<std::endl;
+
+    for(int i=0;i<numberOfTriangles;i++)
+    {
+        std::cout<<renderTriangles[i].x<<" "<<renderTriangles[i].y<<" "<<renderTriangles[i].z<<std::endl;
+    }
+
+    std::cout<<"normals"<<std::endl;
+
+    for(int i=0;i<totalVertices;i++)
+    {
+        std::cout<<renderNormals[i].x<<" "<<renderNormals[i].y<<" "<<renderNormals[i].z<<std::endl;
     }
 
     viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);

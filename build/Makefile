@@ -142,6 +142,19 @@ example/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/build
 .PHONY : example/fast
 
+#=============================================================================
+# Target rules for targets named square
+
+# Build rule for target.
+square: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 square
+.PHONY : square
+
+# fast build rule for target.
+square/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/build
+.PHONY : square/fast
+
 deps/src/gl.o: deps/src/gl.c.o
 .PHONY : deps/src/gl.o
 
@@ -238,6 +251,30 @@ src/hw.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/viewer.dir/build.make CMakeFiles/viewer.dir/src/hw.cpp.s
 .PHONY : src/hw.cpp.s
 
+src/square.o: src/square.cpp.o
+.PHONY : src/square.o
+
+# target to build an object file
+src/square.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/src/square.cpp.o
+.PHONY : src/square.cpp.o
+
+src/square.i: src/square.cpp.i
+.PHONY : src/square.i
+
+# target to preprocess a source file
+src/square.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/src/square.cpp.i
+.PHONY : src/square.cpp.i
+
+src/square.s: src/square.cpp.s
+.PHONY : src/square.s
+
+# target to generate assembly for a file
+src/square.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/src/square.cpp.s
+.PHONY : src/square.cpp.s
+
 src/viewer.o: src/viewer.cpp.o
 .PHONY : src/viewer.o
 
@@ -271,6 +308,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... example"
+	@echo "... square"
 	@echo "... viewer"
 	@echo "... deps/src/gl.o"
 	@echo "... deps/src/gl.i"
@@ -284,6 +322,9 @@ help:
 	@echo "... src/hw.o"
 	@echo "... src/hw.i"
 	@echo "... src/hw.s"
+	@echo "... src/square.o"
+	@echo "... src/square.i"
+	@echo "... src/square.s"
 	@echo "... src/viewer.o"
 	@echo "... src/viewer.i"
 	@echo "... src/viewer.s"

@@ -19,12 +19,14 @@ class HalfEdge{
         HalfEdge *twin;
         int vertexIndex;
         MeshFace *face;
+        HalfEdge(int);
 };
 
 class MeshFace{
     public:
         HalfEdge *edge;
         vec3 normal;
+        MeshFace(HalfEdge*,vec3);
         std::vector<int> getFaceVertices();
 };
 
@@ -33,6 +35,7 @@ class MeshVertex{
         HalfEdge *edge;
         vec3 position;
         //boundary check
+        MeshVertex(HalfEdge*,vec3);
         std::vector<HalfEdge*> getAdjacentFaces();
 };
 
@@ -47,6 +50,7 @@ class Mesh{
     std::vector<vec3> normals;
     std::vector<std::vector<int>> vertexPerFace;
 
+    Mesh(std::vector<HalfEdge*>, std::vector<MeshVertex>, std::vector<MeshFace>);
     void getEdges();
     void triangulate();
     void viewMesh(COL781::Viewer::Viewer &viewer);
