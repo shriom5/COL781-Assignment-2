@@ -155,6 +155,19 @@ square/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/build
 .PHONY : square/fast
 
+#=============================================================================
+# Target rules for targets named cube
+
+# Build rule for target.
+cube: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cube
+.PHONY : cube
+
+# fast build rule for target.
+cube/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/build
+.PHONY : cube/fast
+
 deps/src/gl.o: deps/src/gl.c.o
 .PHONY : deps/src/gl.o
 
@@ -275,6 +288,30 @@ src/square.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/src/square.cpp.s
 .PHONY : src/square.cpp.s
 
+src/unitcube.o: src/unitcube.cpp.o
+.PHONY : src/unitcube.o
+
+# target to build an object file
+src/unitcube.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/src/unitcube.cpp.o
+.PHONY : src/unitcube.cpp.o
+
+src/unitcube.i: src/unitcube.cpp.i
+.PHONY : src/unitcube.i
+
+# target to preprocess a source file
+src/unitcube.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/src/unitcube.cpp.i
+.PHONY : src/unitcube.cpp.i
+
+src/unitcube.s: src/unitcube.cpp.s
+.PHONY : src/unitcube.s
+
+# target to generate assembly for a file
+src/unitcube.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/src/unitcube.cpp.s
+.PHONY : src/unitcube.cpp.s
+
 src/viewer.o: src/viewer.cpp.o
 .PHONY : src/viewer.o
 
@@ -307,6 +344,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... cube"
 	@echo "... example"
 	@echo "... square"
 	@echo "... viewer"
@@ -325,6 +363,9 @@ help:
 	@echo "... src/square.o"
 	@echo "... src/square.i"
 	@echo "... src/square.s"
+	@echo "... src/unitcube.o"
+	@echo "... src/unitcube.i"
+	@echo "... src/unitcube.s"
 	@echo "... src/viewer.o"
 	@echo "... src/viewer.i"
 	@echo "... src/viewer.s"

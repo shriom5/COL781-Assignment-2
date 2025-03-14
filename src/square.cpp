@@ -43,10 +43,12 @@ Mesh unitSquare(int m, int n)
         if(y>0)
         {
             faces[i-1].edge->next->twin=e4;
+            e4->twin=faces[i-1].edge->next;
         }
         if(x>0)
         {
             faces[i-n].edge->next->next->twin=e1;
+            e1->twin=faces[i-n].edge->next->next;
         }
         halfEdges.emplace_back(e1);
         halfEdges.emplace_back(e2);

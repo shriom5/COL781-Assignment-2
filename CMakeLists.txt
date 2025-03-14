@@ -13,5 +13,8 @@ target_link_libraries(viewer glm::glm OpenGL::GL SDL2::SDL2)
 
 add_executable(example src/example.cpp)
 add_executable(square src/square.cpp)
+# add_executable(sphere src/unitsphere.cpp)
+add_executable(cube src/unitcube.cpp)
 target_link_libraries(example viewer)
 target_link_libraries(square viewer)
+target_link_libraries(cube viewer)
