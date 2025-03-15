@@ -230,3 +230,94 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
     viewer.view();
     
 }
+
+void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
+{
+    // this->getEdges();
+    // this->triangulate();
+
+    // int totalVertices=vertices.size(), numberOfTriangles=this->triangles.size(), numberofEdges=this->edges.size();
+    // for(auto const x:vertexPerFace)
+    // {
+    //     totalVertices+=x.size();
+    // }
+
+    // vec3 renderVertices[totalVertices*sizeof(vec3)];
+    // vec3 renderNormals[totalVertices*sizeof(vec3)];
+    // ivec3 renderTriangles[numberOfTriangles*sizeof(ivec3)];
+    // ivec2 renderEdges[numberofEdges*sizeof(ivec2)];
+
+    // int count=0;
+    // int triangleCount=0;
+    // for(auto x:this->triangles)
+    // {
+    //     ivec3 currTriangle;
+    //     currTriangle.x=x.x;
+    //     currTriangle.y=x.y;
+    //     currTriangle.z=x.z;
+    //     renderTriangles[triangleCount]=currTriangle;
+    //     triangleCount++;
+    // }
+    // std::map<vec3,int> done;
+    // //make a vector for normals corresponding to each vertex
+    // std::vector<vec3> currNormals(totalVertices);
+
+    // int currFace=0;
+    // for(auto x:vertexPerFace)
+    // {
+    //     for(auto y:x)
+    //     {
+    //         if(done.find(vertices[y].position)==done.end())
+    //         {
+    //             done[vertices[y].position]=count;
+    //             currNormals[count]=faces[currFace].normal;
+    //             count++;
+    //         }
+    //     }
+    //     currFace++;
+    // }
+
+    // for(auto x:this->vertices)
+    // {
+    //     renderVertices[count]=x.position;
+    //     renderNormals[count]=currNormals[done[x.position]];
+    //     count++;
+    // }
+    // for(int i=0;i<numberofEdges;i++)
+    // {
+    //     ivec2 currEdge;
+    //     currEdge.x=this->edges[i].x;
+    //     currEdge.y=this->edges[i].y;
+    //     renderEdges[i]=currEdge;
+    // }
+
+    // //Debug code
+
+    // // std::cout<<totalVertices<<" "<<numberOfTriangles<<" "<<numberofEdges<<std::endl;
+
+    // // std::cout<<"vertices"<<std::endl;
+
+    // // for(int i=0;i<totalVertices;i++)
+    // // {
+    // //     std::cout<<renderVertices[i].x<<" "<<renderVertices[i].y<<" "<<renderVertices[i].z<<std::endl;
+    // // }
+
+    // // std::cout<<"triangles"<<std::endl;
+
+    // // for(int i=0;i<numberOfTriangles;i++)
+    // // {
+    // //     std::cout<<renderTriangles[i].x<<" "<<renderTriangles[i].y<<" "<<renderTriangles[i].z<<std::endl;
+    // // }
+
+    // // std::cout<<"normals"<<std::endl;
+
+    // // for(int i=0;i<totalVertices;i++)
+    // // {
+    // //     std::cout<<renderNormals[i].x<<" "<<renderNormals[i].y<<" "<<renderNormals[i].z<<std::endl;
+    // // }
+
+    // viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
+
+    // viewer.view();
+    
+}

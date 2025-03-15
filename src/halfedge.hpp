@@ -56,4 +56,5 @@ class Mesh{
     void getEdges();
     void triangulate();
     void viewMesh(COL781::Viewer::Viewer &viewer);
+    void viewMesh2(COL781::Viewer::Viewer &viewer);
 };

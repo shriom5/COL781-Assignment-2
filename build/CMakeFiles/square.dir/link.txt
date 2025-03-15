@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/square.dir/src/square.cpp.o -o square  libviewer.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libSDL2.so 
