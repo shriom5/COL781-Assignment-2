@@ -1,1 +1,1 @@
-/usr/bin/c++ -rdynamic CMakeFiles/sphere.dir/src/unitsphere.cpp.o -o sphere 
+/usr/bin/c++ -rdynamic CMakeFiles/sphere.dir/src/unitsphere.cpp.o -o sphere  libviewer.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libSDL2.so 

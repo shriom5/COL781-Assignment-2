@@ -55,5 +55,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/viewer.dir/DependInfo.cmake"
   "CMakeFiles/example.dir/DependInfo.cmake"
   "CMakeFiles/square.dir/DependInfo.cmake"
+  "CMakeFiles/sphere.dir/DependInfo.cmake"
   "CMakeFiles/cube.dir/DependInfo.cmake"
   )

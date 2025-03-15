@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/shriom/col781/COL781-Assignment-2/deps/include -isystem /usr/include/SDL2
 
 CXX_FLAGS = -std=gnu++11
 

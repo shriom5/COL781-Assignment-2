@@ -156,6 +156,19 @@ square/fast:
 .PHONY : square/fast
 
 #=============================================================================
+# Target rules for targets named sphere
+
+# Build rule for target.
+sphere: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sphere
+.PHONY : sphere
+
+# fast build rule for target.
+sphere/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sphere.dir/build.make CMakeFiles/sphere.dir/build
+.PHONY : sphere/fast
+
+#=============================================================================
 # Target rules for targets named cube
 
 # Build rule for target.
@@ -312,6 +325,30 @@ src/unitcube.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/src/unitcube.cpp.s
 .PHONY : src/unitcube.cpp.s
 
+src/unitsphere.o: src/unitsphere.cpp.o
+.PHONY : src/unitsphere.o
+
+# target to build an object file
+src/unitsphere.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sphere.dir/build.make CMakeFiles/sphere.dir/src/unitsphere.cpp.o
+.PHONY : src/unitsphere.cpp.o
+
+src/unitsphere.i: src/unitsphere.cpp.i
+.PHONY : src/unitsphere.i
+
+# target to preprocess a source file
+src/unitsphere.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sphere.dir/build.make CMakeFiles/sphere.dir/src/unitsphere.cpp.i
+.PHONY : src/unitsphere.cpp.i
+
+src/unitsphere.s: src/unitsphere.cpp.s
+.PHONY : src/unitsphere.s
+
+# target to generate assembly for a file
+src/unitsphere.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sphere.dir/build.make CMakeFiles/sphere.dir/src/unitsphere.cpp.s
+.PHONY : src/unitsphere.cpp.s
+
 src/viewer.o: src/viewer.cpp.o
 .PHONY : src/viewer.o
 
@@ -346,6 +383,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... cube"
 	@echo "... example"
+	@echo "... sphere"
 	@echo "... square"
 	@echo "... viewer"
 	@echo "... deps/src/gl.o"
@@ -366,6 +404,9 @@ help:
 	@echo "... src/unitcube.o"
 	@echo "... src/unitcube.i"
 	@echo "... src/unitcube.s"
+	@echo "... src/unitsphere.o"
+	@echo "... src/unitsphere.i"
+	@echo "... src/unitsphere.s"
 	@echo "... src/viewer.o"
 	@echo "... src/viewer.i"
 	@echo "... src/viewer.s"

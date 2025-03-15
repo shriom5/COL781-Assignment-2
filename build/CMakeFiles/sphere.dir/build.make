@@ -92,6 +92,9 @@ sphere_EXTERNAL_OBJECTS =
 
 sphere: CMakeFiles/sphere.dir/src/unitsphere.cpp.o
 sphere: CMakeFiles/sphere.dir/build.make
+sphere: libviewer.a
+sphere: /usr/lib/x86_64-linux-gnu/libGL.so
+sphere: /usr/lib/x86_64-linux-gnu/libSDL2.so
 sphere: CMakeFiles/sphere.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable sphere"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sphere.dir/link.txt --verbose=$(VERBOSE)

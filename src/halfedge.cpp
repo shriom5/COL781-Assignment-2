@@ -93,13 +93,14 @@ void Mesh::getEdges()
             curredge.x = edge->vertexIndex;
             curredge.y = edge->twin->vertexIndex;
             edges.emplace_back(curredge);
+            // std::cout<<curredge.x<<" "<<curredge.y<<std::endl;
         }
         else
         {
             ivec2 curredge;
             curredge.x = edge->vertexIndex;
             curredge.y = edge->next->vertexIndex;
-            edges.emplace_back(curredge);
+            // edges.emplace_back(curredge);
         }
     }
 }
@@ -132,6 +133,12 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
 {
     this->getEdges();
     this->triangulate();
+
+    // std::cout<<"checking original vertices"<<std::endl;
+    // for(auto x:this->vertices)
+    // {
+    //     std::cout<<x.position.x<<" "<<x.position.y<<" "<<x.position.z<<std::endl;
+    // }
 
     int totalVertices=0, numberOfTriangles=this->triangles.size(), numberofEdges=this->edges.size();
     for(auto const x:vertexPerFace)
@@ -173,6 +180,7 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
 
     count=0;
     int faceCount=0,triangleCount=0;
+    // std::cout<<"checking for vertices"<<std::endl;
     for(auto const x:vertexPerFace)
     {
         vec3 normal = this->normals[faceCount];
@@ -189,6 +197,7 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         for(auto const y:x)
         {
             renderVertices[count]=this->vertices[y].position;
+            // std::cout<<renderVertices[count].x<<" "<<renderVertices[count].y<<" "<<renderVertices[count].z<<std::endl;
             renderNormals[count]=normal;
             count++;
         }
@@ -225,6 +234,12 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
     // for(int i=0;i<totalVertices;i++)
     // {
     //     std::cout<<renderNormals[i].x<<" "<<renderNormals[i].y<<" "<<renderNormals[i].z<<std::endl;
+    // }
+
+    // std::cout<<"edges"<<std::endl;
+    // for(int i=0;i<numberofEdges;i++)
+    // {
+    //     std::cout<<renderEdges[i].x<<" "<<renderEdges[i].y<<std::endl;
     // }
 
     viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
