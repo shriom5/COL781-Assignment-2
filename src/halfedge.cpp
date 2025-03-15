@@ -258,7 +258,7 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     //     renderTriangles[triangleCount]=currTriangle;
     //     triangleCount++;
     // }
-    // std::map<vec3,int> done;
+    // std::map<int,int> done;
     // //make a vector for normals corresponding to each vertex
     // std::vector<vec3> currNormals(totalVertices);
 
@@ -267,9 +267,9 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     // {
     //     for(auto y:x)
     //     {
-    //         if(done.find(vertices[y].position)==done.end())
+    //         if(done.find(y)==done.end())
     //         {
-    //             done[vertices[y].position]=count;
+    //             done[y]=count;
     //             currNormals[count]=faces[currFace].normal;
     //             count++;
     //         }
