@@ -265,16 +265,16 @@ Mesh unitCube(int m, int n, int o)
 
 int main() {
     //Create a unit square mesh
-    Mesh check=unitCube(10,5,10);
+    Mesh check=unitCube(5,5,5);
 
-    check.triangulate();
+    // check.triangulate();
 
     V::Viewer v;
     if (!v.initialize("Mesh viewer", 640, 480)) {
         return EXIT_FAILURE;
     }
 
-    check.viewMesh(v);
+    check.viewMesh2(v);
 
     //Memory cleanup
 

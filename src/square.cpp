@@ -63,14 +63,14 @@ int main() {
     //Create a unit square mesh
     Mesh check=unitSquare(25,25);
 
-    check.triangulate();
+    // check.triangulate();
 
     V::Viewer v;
     if (!v.initialize("Mesh viewer", 640, 480)) {
         return EXIT_FAILURE;
     }
 
-    check.viewMesh(v);
+    check.viewMesh2(v);
 
     //Memory cleanup
 
