@@ -359,3 +359,171 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     viewer.view();
     
 }
+
+/*
+Mesh extrusion
+*/
+
+void Mesh::extrudeFace(int idx, float distance)
+{
+    std::vector<int> faceVertices = this->faces[idx].getFaceVertices();
+    vec3 normal = this->faces[idx].normal;
+
+    int n = faceVertices.size();
+    // std::vector<MeshVertex> new_vertices(n);
+    for(int i=0;i<n;i++)
+    {
+        vec3 currPosition = this->vertices[faceVertices[i]].position;
+        vec3 normal = this->faces[idx].normal;
+        MeshVertex curr =MeshVertex(nullptr,currPosition+distance*normal);
+        this->vertices.emplace_back(curr);
+    }
+
+    int sz=faces.size();
+    HalfEdge *currEdge = this->faces[idx].edge;
+
+    for(int i=0;i<n;i++)
+    {
+        int l1=faceVertices[i], l2=faceVertices[(i+1)%n], l3=vertices.size()-n+(i+1)%n, l4=vertices.size()-n+i;
+        HalfEdge *e1 = new HalfEdge(l1);
+        HalfEdge *e2 = new HalfEdge(l2);
+        HalfEdge *e3 = new HalfEdge(l3);
+        HalfEdge *e4 = new HalfEdge(l4);
+
+        e1->next=e2;
+        e2->next=e3;
+        e3->next=e4;
+        e4->next=e1;
+        
+        vec3 sideDirection = this->vertices[l2].position-this->vertices[l1].position;
+        vec3 sideNormal = cross(normalize(sideDirection),normal);
+
+        MeshFace currFace = MeshFace(e1,sideNormal);
+        this->faces.emplace_back(currFace);
+
+        this->halfEdges.emplace_back(e1);
+        this->halfEdges.emplace_back(e2);
+        this->halfEdges.emplace_back(e3);
+        this->halfEdges.emplace_back(e4);
+
+        e1->face=&this->faces[this->faces.size()-1];
+        e2->face=&this->faces[this->faces.size()-1];
+        e3->face=&this->faces[this->faces.size()-1];
+        e4->face=&this->faces[this->faces.size()-1];
+
+        vertices[l3].edge=e3;
+
+        //bottom twin e1
+        e1->twin=currEdge->twin;
+        currEdge->twin->twin=e1;
+        currEdge=currEdge->next;
+
+        //left right twins (e2 and e4)
+        if(i>0)
+        {
+            e4->twin=faces[sz+i-1].edge->next;
+            faces[sz+i-1].edge->next->twin=e4;
+        }
+        if(i==n-1)
+        {
+            e2->twin=faces[sz].edge->next->next->next;
+            faces[sz].edge->next->next->next->twin=e2;
+        }
+    }
+
+    // we now make the new extruded face
+    HalfEdge* first=new HalfEdge(vertices.size()-n);
+    HalfEdge* curr=first;
+    for(int i=0;i<n;i++)
+    {
+        curr->twin=faces[sz+i].edge->next->next;
+        faces[sz+i].edge->next->next->twin=curr;
+        if(i<n-1)
+        {
+            curr->next=new HalfEdge(vertices.size()-n+i+1);
+            curr=curr->next;
+        }
+        else
+        {
+            curr->next=first;
+        }
+    }
+    // //assign new half edge to the face
+    faces[idx].edge=first;
+}
+
+void Mesh::extrudeFace(vec3 point, float distance)
+{
+    int idx=-1;
+    float minDist=1e9;
+    for(int i=0;i<faces.size();i++)
+    {
+        std::vector<int> faceVertices = faces[i].getFaceVertices();
+        float currDist=1e9;
+        for(int j=0;j<faceVertices.size()-2;j++)
+        {
+            vec3 a = this->vertices[faceVertices[0]].position;
+            vec3 b = this->vertices[faceVertices[j+1]].position;
+            vec3 c = this->vertices[faceVertices[j+2]].position;
+            currDist=min(currDist,pointToTriangleDistance(point,a,b,c));
+        }
+        if(currDist<minDist)
+        {
+            minDist=currDist;
+            idx=i;
+        }
+    }
+    if(idx==-1)
+    {
+        std::cerr<<"No face found\n";
+        return;
+    }
+    std::cout<<"the closest face has index "<<idx<<std::endl;
+    this->extrudeFace(idx,distance);
+}
+
+/* The below functions are AI generated*/
+
+float pointToSegmentDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b) {
+    glm::vec3 ab = b - a;
+    glm::vec3 ap = p - a;
+    float t = glm::dot(ap, ab) / glm::dot(ab, ab);
+    t = clamp(t, 0.0f, 1.0f);  // Clamp projection to segment
+    glm::vec3 closest = a + t * ab;
+    return glm::length(p - closest);
+}
+
+float pointToTriangleDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b, const glm::vec3& c) {
+    // Compute triangle normal
+    glm::vec3 normal = glm::normalize(glm::cross(b - a, c - a));
+
+    // Compute perpendicular projection onto triangle plane
+    float d = glm::dot(normal, a);
+    float signedDist = glm::dot(normal, p) - d;
+    glm::vec3 projectedPoint = p - signedDist * normal;
+
+    // Check if projected point is inside the triangle using Barycentric coordinates
+    glm::vec3 v0 = b - a, v1 = c - a, v2 = projectedPoint - a;
+    float d00 = glm::dot(v0, v0);
+    float d01 = glm::dot(v0, v1);
+    float d11 = glm::dot(v1, v1);
+    float d20 = glm::dot(v2, v0);
+    float d21 = glm::dot(v2, v1);
+    float denom = d00 * d11 - d01 * d01;
+
+    float v = (d11 * d20 - d01 * d21) / denom;
+    float w = (d00 * d21 - d01 * d20) / denom;
+    float u = 1.0f - v - w;
+
+    if (u >= 0.0f && v >= 0.0f && w >= 0.0f) {
+        // Projection falls inside the triangle
+        return std::abs(signedDist);
+    }
+
+    // Otherwise, find the minimum distance to edges and vertices
+    float edgeDist1 = pointToSegmentDistance(p, a, b);
+    float edgeDist2 = pointToSegmentDistance(p, b, c);
+    float edgeDist3 = pointToSegmentDistance(p, c, a);
+
+    return std::min({ edgeDist1, edgeDist2, edgeDist3 });
+}

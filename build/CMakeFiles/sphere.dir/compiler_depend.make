@@ -61,8 +61,10 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/assert.h \
+  /usr/include/c++/9/algorithm \
   /usr/include/c++/9/array \
   /usr/include/c++/9/backward/binders.h \
+  /usr/include/c++/9/bits/algorithmfwd.h \
   /usr/include/c++/9/bits/alloc_traits.h \
   /usr/include/c++/9/bits/allocator.h \
   /usr/include/c++/9/bits/basic_ios.h \
@@ -101,10 +103,12 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
   /usr/include/c++/9/bits/ptr_traits.h \
   /usr/include/c++/9/bits/range_access.h \
   /usr/include/c++/9/bits/std_abs.h \
+  /usr/include/c++/9/bits/stl_algo.h \
   /usr/include/c++/9/bits/stl_algobase.h \
   /usr/include/c++/9/bits/stl_bvector.h \
   /usr/include/c++/9/bits/stl_construct.h \
   /usr/include/c++/9/bits/stl_function.h \
+  /usr/include/c++/9/bits/stl_heap.h \
   /usr/include/c++/9/bits/stl_iterator.h \
   /usr/include/c++/9/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/9/bits/stl_iterator_base_types.h \
@@ -112,12 +116,14 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
   /usr/include/c++/9/bits/stl_multimap.h \
   /usr/include/c++/9/bits/stl_pair.h \
   /usr/include/c++/9/bits/stl_relops.h \
+  /usr/include/c++/9/bits/stl_tempbuf.h \
   /usr/include/c++/9/bits/stl_tree.h \
   /usr/include/c++/9/bits/stl_uninitialized.h \
   /usr/include/c++/9/bits/stl_vector.h \
   /usr/include/c++/9/bits/streambuf.tcc \
   /usr/include/c++/9/bits/streambuf_iterator.h \
   /usr/include/c++/9/bits/stringfwd.h \
+  /usr/include/c++/9/bits/uniform_int_dist.h \
   /usr/include/c++/9/bits/uses_allocator.h \
   /usr/include/c++/9/bits/vector.tcc \
   /usr/include/c++/9/cassert \
@@ -288,6 +294,8 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
   /usr/include/glm/glm.hpp \
   /usr/include/glm/gtc/constants.hpp \
   /usr/include/glm/gtc/constants.inl \
+  /usr/include/glm/gtc/epsilon.hpp \
+  /usr/include/glm/gtc/epsilon.inl \
   /usr/include/glm/gtx/polar_coordinates.hpp \
   /usr/include/glm/gtx/polar_coordinates.inl \
   /usr/include/glm/integer.hpp \
@@ -701,8 +709,6 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/glm/packing.hpp:
 
-/usr/include/glm/mat4x4.hpp:
-
 /usr/include/glm/mat4x3.hpp:
 
 /usr/include/glm/mat4x2.hpp:
@@ -720,6 +726,8 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 /usr/include/glm/mat2x3.hpp:
 
 /usr/include/glm/integer.hpp:
+
+/usr/include/glm/gtc/epsilon.inl:
 
 /usr/lib/gcc/x86_64-linux-gnu/9/include/waitpkgintrin.h:
 
@@ -777,7 +785,23 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/glm/ext/vector_double2.hpp:
 
-/usr/include/c++/9/cmath:
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
+/usr/include/glm/ext/vector_bool4.hpp:
+
+/usr/include/glm/ext/vector_bool3_precision.hpp:
+
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
+/usr/include/glm/matrix.hpp:
+
+/usr/include/glm/ext/vector_bool3.hpp:
+
+/usr/include/glm/ext/vector_bool2_precision.hpp:
+
+/usr/include/glm/ext/vector_bool2.hpp:
+
+/usr/include/glm/ext/scalar_uint_sized.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/errno.h:
 
@@ -785,13 +809,7 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/c++/9/bits/erase_if.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/9/include/xmmintrin.h:
-
-/usr/include/c++/9/clocale:
-
-/usr/include/c++/9/climits:
-
-/usr/include/SDL2/SDL_pixels.h:
+/usr/include/c++/9/cmath:
 
 /usr/include/c++/9/cwctype:
 
@@ -799,15 +817,19 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/c++/9/bits/stringfwd.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/9/include/pmmintrin.h:
-
-/usr/include/c++/9/bits/stl_relops.h:
-
 /usr/include/c++/9/bits/localefwd.h:
 
 /usr/include/glm/detail/func_common.inl:
 
 /usr/include/glm/ext/matrix_float2x4_precision.hpp:
+
+/usr/include/c++/9/bits/stl_algo.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h:
+
+/usr/include/c++/9/type_traits:
+
+/usr/include/glm/detail/type_mat4x4.inl:
 
 /usr/include/c++/9/bits/range_access.h:
 
@@ -877,8 +899,6 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/SDL2/SDL_touch.h:
 
-/usr/include/glm/ext/vector_bool2_precision.hpp:
-
 /usr/include/errno.h:
 
 /usr/include/c++/9/bits/concept_check.h:
@@ -887,13 +907,23 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/glm/detail/type_mat3x3.inl:
 
-/usr/include/c++/9/cerrno:
-
-/usr/include/SDL2/SDL_audio.h:
-
 /usr/include/glm/detail/type_half.inl:
 
 /usr/include/c++/9/bits/char_traits.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/9/include/pmmintrin.h:
+
+/usr/include/c++/9/bits/stl_relops.h:
+
+/usr/include/glm/mat4x4.hpp:
+
+/usr/include/c++/9/bits/algorithmfwd.h:
+
+/home/shriom/col781/COL781-Assignment-2/src/viewer.hpp:
+
+/usr/include/glm/ext/vector_double4.hpp:
+
+/usr/include/glm/ext/matrix_float4x2_precision.hpp:
 
 /usr/include/c++/9/bits/hash_bytes.h:
 
@@ -908,6 +938,8 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
 /usr/include/SDL2/SDL_guid.h:
+
+/usr/include/c++/9/algorithm:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
@@ -951,10 +983,6 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/glm/ext/matrix_float3x4_precision.hpp:
 
-/usr/include/c++/9/cfloat:
-
-/usr/include/SDL2/SDL_keyboard.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
 /usr/include/c++/9/bits/stl_iterator_base_funcs.h:
@@ -967,9 +995,9 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h:
 
-/usr/include/c++/9/cstdlib:
+/usr/include/c++/9/bits/stl_tempbuf.h:
 
-/usr/include/glm/ext/vector_bool2.hpp:
+/usr/include/c++/9/cstdlib:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 
@@ -1021,6 +1049,8 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/c++/9/array:
 
+/usr/include/SDL2/SDL_pixels.h:
+
 /usr/include/c++/9/bits/std_abs.h:
 
 /home/shriom/col781/COL781-Assignment-2/deps/include/KHR/khrplatform.h:
@@ -1046,6 +1076,8 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 /usr/include/glm/detail/func_exponential.inl:
 
 /usr/include/c++/9/bits/basic_ios.tcc:
+
+/usr/include/c++/9/bits/stl_heap.h:
 
 /usr/include/c++/9/bits/alloc_traits.h:
 
@@ -1079,13 +1111,11 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/SDL2/SDL_assert.h:
 
-/home/shriom/col781/COL781-Assignment-2/src/viewer.hpp:
-
-/usr/include/glm/ext/vector_double4.hpp:
-
-/usr/include/glm/ext/matrix_float4x2_precision.hpp:
-
 /usr/include/SDL2/SDL_log.h:
+
+/usr/include/c++/9/climits:
+
+/usr/include/c++/9/bits/uniform_int_dist.h:
 
 /usr/include/SDL2/SDL_endian.h:
 
@@ -1201,6 +1231,18 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/asm-generic/errno.h:
 
+/usr/include/SDL2/SDL_audio.h:
+
+/usr/include/c++/9/cerrno:
+
+/usr/include/SDL2/SDL_keyboard.h:
+
+/usr/include/c++/9/cfloat:
+
+/usr/lib/gcc/x86_64-linux-gnu/9/include/xmmintrin.h:
+
+/usr/include/c++/9/clocale:
+
 /usr/include/c++/9/bits/stl_vector.h:
 
 /usr/include/SDL2/SDL_misc.h:
@@ -1251,17 +1293,11 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/glm/ext/matrix_double2x2.hpp:
 
-/usr/include/glm/ext/vector_bool3_precision.hpp:
-
 /usr/include/glm/ext/matrix_float4x4.hpp:
 
 /usr/include/c++/9/iostream:
 
 /usr/include/glm/detail/type_mat2x4.inl:
-
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
-
-/usr/include/glm/ext/vector_bool4.hpp:
 
 /usr/include/limits.h:
 
@@ -1282,18 +1318,6 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 /usr/include/c++/9/stdexcept:
 
 /usr/include/c++/9/system_error:
-
-/usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h:
-
-/usr/include/c++/9/type_traits:
-
-/usr/include/glm/detail/type_mat4x4.inl:
-
-/usr/include/x86_64-linux-gnu/sys/cdefs.h:
-
-/usr/include/glm/matrix.hpp:
-
-/usr/include/glm/ext/vector_bool3.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
@@ -1443,6 +1467,8 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 
 /usr/include/stdc-predef.h:
 
+/usr/include/glm/gtc/epsilon.hpp:
+
 /usr/include/c++/9/bits/stl_iterator_base_types.h:
 
 /usr/include/glm/ext/matrix_float2x2_precision.hpp:
@@ -1464,5 +1490,3 @@ CMakeFiles/sphere.dir/src/unitsphere.cpp.o: /home/shriom/col781/COL781-Assignmen
 /usr/include/c++/9/ext/atomicity.h:
 
 /usr/include/glm/ext/matrix_float4x3_precision.hpp:
-
-/usr/include/glm/ext/scalar_uint_sized.hpp:

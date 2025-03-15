@@ -4,10 +4,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/polar_coordinates.hpp>
 #include <glm/gtc/constants.hpp>
+#include <glm/gtc/epsilon.hpp>
 #include <vector>
 #include <map>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 using namespace glm;
 
@@ -20,7 +22,7 @@ class HalfEdge{
         HalfEdge *next;
         HalfEdge *twin;
         int vertexIndex;
-        MeshFace *face;
+        MeshFace* face;
         HalfEdge(int);
 };
 
@@ -57,4 +59,10 @@ class Mesh{
     void triangulate();
     void viewMesh(COL781::Viewer::Viewer &viewer);
     void viewMesh2(COL781::Viewer::Viewer &viewer);
+    void extrudeFace(int faceIndex, float distance);
+    void extrudeFace(vec3 point, float distance);
 };
+
+
+float pointToSegmentDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b);
+float pointToTriangleDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b, const glm::vec3& c);

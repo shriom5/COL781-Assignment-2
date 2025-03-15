@@ -56,6 +56,12 @@ Mesh unitCube(int m, int n, int o)
             else if (j<2*m+n) currFace.normal=vec3(0.0,1.0,0.0);
             else currFace.normal=vec3(-1.0,0.0,0.0);
             faces.emplace_back(currFace);
+
+            e1->face=&faces[faces.size()-1];
+            e2->face=&faces[faces.size()-1];
+            e3->face=&faces[faces.size()-1];
+            e4->face=&faces[faces.size()-1];
+
             if(i>0)
             {
                 faces[(i-1)*(2*m+2*n)+j].edge->next->next->twin=e1;
@@ -114,10 +120,10 @@ Mesh unitCube(int m, int n, int o)
             HalfEdge *e2 = new HalfEdge(l2);
             HalfEdge *e3 = new HalfEdge(l3);
             HalfEdge *e4 = new HalfEdge(l4);
-            e1->next=e2;
-            e2->next=e3;
-            e3->next=e4;
-            e4->next=e1;
+            e1->next=e4;
+            e4->next=e3;
+            e3->next=e2;
+            e2->next=e1;
             MeshFace currFace(e1,vec3(0.0,0.0,-1.0));
             halfEdges.emplace_back(e1);
             halfEdges.emplace_back(e2);
@@ -129,37 +135,42 @@ Mesh unitCube(int m, int n, int o)
             if(l3>=sz) vertices[l3].edge=e3;
             if(l4>=sz) vertices[l4].edge=e4;
 
+            e1->face=&faces[faces.size()-1];
+            e2->face=&faces[faces.size()-1];
+            e3->face=&faces[faces.size()-1];
+            e4->face=&faces[faces.size()-1];
+
             int currFaceIndex = faces.size()-1;
             if(j>0)
             {
-                faces[currFaceIndex-1].edge->next->twin=e4;
-                e4->twin=faces[currFaceIndex-1].edge->next;
+                faces[currFaceIndex-1].edge->next->next->twin=e1;
+                e4->twin=faces[currFaceIndex-1].edge->next->next;
             }
             if (j==0)
             {
                 // if(faces[2*m+2*n-i-1].edge->twin) std::cout<<"error"<<std::endl;
-                faces[2*m+2*n-i-1].edge->twin=e4;
-                e4->twin=faces[2*m+2*n-i-1].edge;
+                faces[2*m+2*n-i-1].edge->twin=e1;
+                e1->twin=faces[2*m+2*n-i-1].edge;
             }
             if (j==m-1)
             {
-                faces[m+i].edge->twin=e2;
-                e2->twin=faces[m+i].edge;
+                faces[m+i].edge->twin=e3;
+                e3->twin=faces[m+i].edge;
             }
             if(i>0)
             {
-                faces[currFaceIndex-m].edge->next->next->twin=e1;
-                e1->twin=faces[currFaceIndex-m].edge->next->next;
+                faces[currFaceIndex-m].edge->next->twin=e2;
+                e2->twin=faces[currFaceIndex-m].edge->next;
             }
             if (i==0)
             {
-                faces[j].edge->twin=e1;
-                e1->twin=faces[j].edge;
+                faces[j].edge->twin=e2;
+                e2->twin=faces[j].edge;
             }
             if (i==n-1)
             {
-                faces[2*m+n-j-1].edge->twin=e3;
-                e3->twin=faces[2*m+n-j-1].edge;
+                faces[2*m+n-j-1].edge->twin=e4;
+                e4->twin=faces[2*m+n-j-1].edge;
             }
         }
     }
@@ -223,6 +234,11 @@ Mesh unitCube(int m, int n, int o)
             if(l3>=sz) vertices[l3].edge=e3;
             if(l4>=sz) vertices[l4].edge=e4;
 
+            e1->face=&faces[faces.size()-1];
+            e2->face=&faces[faces.size()-1];
+            e3->face=&faces[faces.size()-1];
+            e4->face=&faces[faces.size()-1];
+
             int currFaceIndex = faces.size()-1;
             if(j>0)
             {
@@ -259,13 +275,15 @@ Mesh unitCube(int m, int n, int o)
         }
     }
 
+    //make the cube origin centered
+    for(int i=0;i<vertices.size();i++) vertices[i].position-=vec3(0.5,0.5,0.5);
 
     return Mesh(halfEdges,vertices,faces);
 }
 
 int main() {
     //Create a unit square mesh
-    Mesh check=unitCube(5,5,5);
+    Mesh check=unitCube(3,3,3);
 
     // check.triangulate();
 
@@ -273,8 +291,12 @@ int main() {
     if (!v.initialize("Mesh viewer", 640, 480)) {
         return EXIT_FAILURE;
     }
+    // check.extrudeFace(49,0.4);
+    // check.extrudeFace(13,0.4);
 
-    check.viewMesh2(v);
+    check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
+
+    check.viewMesh(v);
 
     //Memory cleanup
 

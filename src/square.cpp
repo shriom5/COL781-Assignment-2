@@ -40,6 +40,10 @@ Mesh unitSquare(int m, int n)
         e4->next=e1;
         MeshFace currFace = MeshFace(e1,vec3(0.0,0.0,1.0));
         faces.emplace_back(currFace);
+        e1->face=&faces[faces.size()-1];
+        e2->face=&faces[faces.size()-1];
+        e3->face=&faces[faces.size()-1];
+        e4->face=&faces[faces.size()-1];
         if(y>0)
         {
             faces[i-1].edge->next->twin=e4;

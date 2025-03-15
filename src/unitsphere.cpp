@@ -75,6 +75,12 @@ Mesh unitSphere(int m, int n)
             halfEdges.emplace_back(e2);
             halfEdges.emplace_back(e3);
             halfEdges.emplace_back(e4);
+
+            e1->face=&faces[faces.size()-1];
+            e2->face=&faces[faces.size()-1];
+            e3->face=&faces[faces.size()-1];
+            e4->face=&faces[faces.size()-1];
+
             if(j>0)
             {
                 faces[i*m+j-1].edge->next->twin=e4;
@@ -127,6 +133,11 @@ Mesh unitSphere(int m, int n)
         halfEdges.emplace_back(e1);
         halfEdges.emplace_back(e2);
         halfEdges.emplace_back(e3);
+
+        e1->face=&faces[faces.size()-1];
+        e2->face=&faces[faces.size()-1];
+        e3->face=&faces[faces.size()-1];
+
         if(i>0)
         {
             faces[sz+i-1].edge->next->twin=e1;
@@ -172,6 +183,11 @@ Mesh unitSphere(int m, int n)
         halfEdges.emplace_back(e1);
         halfEdges.emplace_back(e2);
         halfEdges.emplace_back(e3);
+
+        e1->face=&faces[faces.size()-1];
+        e2->face=&faces[faces.size()-1];
+        e3->face=&faces[faces.size()-1];
+
         if(i>0)
         {
             faces[sz+i-1].edge->next->twin=e3;
@@ -206,7 +222,7 @@ Mesh unitSphere(int m, int n)
 
 int main() {
     //Create a unit square mesh
-    Mesh check=unitSphere(20,20);
+    Mesh check=unitSphere(40,40);
 
     // check.triangulate();
 
@@ -215,7 +231,7 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    check.viewMesh(v);
+    check.viewMesh2(v);
 
     //Memory cleanup
 

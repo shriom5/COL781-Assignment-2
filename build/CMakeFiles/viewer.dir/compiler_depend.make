@@ -130,8 +130,10 @@ CMakeFiles/viewer.dir/src/halfedge.cpp.o: /home/shriom/col781/COL781-Assignment-
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/assert.h \
+  /usr/include/c++/9/algorithm \
   /usr/include/c++/9/array \
   /usr/include/c++/9/backward/binders.h \
+  /usr/include/c++/9/bits/algorithmfwd.h \
   /usr/include/c++/9/bits/alloc_traits.h \
   /usr/include/c++/9/bits/allocator.h \
   /usr/include/c++/9/bits/basic_ios.h \
@@ -170,10 +172,12 @@ CMakeFiles/viewer.dir/src/halfedge.cpp.o: /home/shriom/col781/COL781-Assignment-
   /usr/include/c++/9/bits/ptr_traits.h \
   /usr/include/c++/9/bits/range_access.h \
   /usr/include/c++/9/bits/std_abs.h \
+  /usr/include/c++/9/bits/stl_algo.h \
   /usr/include/c++/9/bits/stl_algobase.h \
   /usr/include/c++/9/bits/stl_bvector.h \
   /usr/include/c++/9/bits/stl_construct.h \
   /usr/include/c++/9/bits/stl_function.h \
+  /usr/include/c++/9/bits/stl_heap.h \
   /usr/include/c++/9/bits/stl_iterator.h \
   /usr/include/c++/9/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/9/bits/stl_iterator_base_types.h \
@@ -181,12 +185,14 @@ CMakeFiles/viewer.dir/src/halfedge.cpp.o: /home/shriom/col781/COL781-Assignment-
   /usr/include/c++/9/bits/stl_multimap.h \
   /usr/include/c++/9/bits/stl_pair.h \
   /usr/include/c++/9/bits/stl_relops.h \
+  /usr/include/c++/9/bits/stl_tempbuf.h \
   /usr/include/c++/9/bits/stl_tree.h \
   /usr/include/c++/9/bits/stl_uninitialized.h \
   /usr/include/c++/9/bits/stl_vector.h \
   /usr/include/c++/9/bits/streambuf.tcc \
   /usr/include/c++/9/bits/streambuf_iterator.h \
   /usr/include/c++/9/bits/stringfwd.h \
+  /usr/include/c++/9/bits/uniform_int_dist.h \
   /usr/include/c++/9/bits/uses_allocator.h \
   /usr/include/c++/9/bits/vector.tcc \
   /usr/include/c++/9/cassert \
@@ -357,6 +363,8 @@ CMakeFiles/viewer.dir/src/halfedge.cpp.o: /home/shriom/col781/COL781-Assignment-
   /usr/include/glm/glm.hpp \
   /usr/include/glm/gtc/constants.hpp \
   /usr/include/glm/gtc/constants.inl \
+  /usr/include/glm/gtc/epsilon.hpp \
+  /usr/include/glm/gtc/epsilon.inl \
   /usr/include/glm/gtx/polar_coordinates.hpp \
   /usr/include/glm/gtx/polar_coordinates.inl \
   /usr/include/glm/integer.hpp \
@@ -1635,8 +1643,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/glm/packing.hpp:
 
-/usr/include/glm/mat4x4.hpp:
-
 /usr/include/glm/mat4x3.hpp:
 
 /usr/include/glm/mat4x2.hpp:
@@ -1648,6 +1654,8 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/glm/mat2x3.hpp:
 
 /usr/include/glm/integer.hpp:
+
+/usr/include/glm/gtc/epsilon.inl:
 
 /usr/lib/gcc/x86_64-linux-gnu/9/include/waitpkgintrin.h:
 
@@ -1789,6 +1797,20 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/glm/detail/type_mat3x4.hpp:
 
+/usr/include/glm/ext/vector_uint4_sized.hpp:
+
+/usr/include/glm/detail/type_mat3x3.inl:
+
+/usr/include/glm/detail/type_mat3x3.hpp:
+
+/usr/include/glm/detail/type_mat3x2.inl:
+
+/usr/include/glm/detail/type_mat3x2.hpp:
+
+/usr/include/glm/detail/type_mat2x4.inl:
+
+/usr/include/glm/detail/type_mat2x4.hpp:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
 /usr/include/asm-generic/errno.h:
@@ -1846,8 +1868,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/c++/9/array:
 
 /usr/include/SDL2/SDL_pixels.h:
-
-/usr/include/c++/9/climits:
 
 /usr/include/glm/ext/matrix_transform.hpp:
 
@@ -1909,6 +1929,10 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /home/shriom/col781/COL781-Assignment-2/src/viewer.hpp:
 
+/usr/include/glm/mat4x4.hpp:
+
+/usr/include/c++/9/bits/algorithmfwd.h:
+
 /home/shriom/col781/COL781-Assignment-2/src/hw.hpp:
 
 /usr/include/SDL2/SDL_mouse.h:
@@ -1939,8 +1963,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/c++/9/iostream:
 
-/usr/include/glm/detail/type_mat2x4.inl:
-
 /usr/include/glm/ext/vector_float4_precision.hpp:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
@@ -1965,10 +1987,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/SDL2/SDL_log.h:
 
-/usr/include/c++/9/bits/streambuf.tcc:
-
-/usr/include/SDL2/SDL_system.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/include/glm/gtc/constants.inl:
@@ -1982,10 +2000,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/glm/ext/matrix_float2x4.hpp:
 
 /usr/include/c++/9/initializer_list:
-
-/usr/include/c++/9/backward/binders.h:
-
-/usr/include/glm/detail/func_trigonometric.inl:
 
 /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h:
 
@@ -2004,8 +2018,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
-
-/usr/include/glm/detail/type_mat2x4.hpp:
 
 /usr/include/x86_64-linux-gnu/c++/9/bits/c++allocator.h:
 
@@ -2042,10 +2054,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/glm/ext/vector_bool4_precision.hpp:
 
 /usr/include/alloca.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h:
-
-/usr/include/c++/9/cstdlib:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
@@ -2157,6 +2165,8 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/c++/9/bits/fstream.tcc:
 
+/usr/include/c++/9/algorithm:
+
 /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlintrin.h:
 
 /usr/include/glm/exponential.hpp:
@@ -2195,11 +2205,21 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/c++/9/bits/locale_facets.h:
 
+/usr/include/glm/detail/func_trigonometric.inl:
+
+/usr/include/c++/9/backward/binders.h:
+
+/usr/include/SDL2/SDL_system.h:
+
+/usr/include/c++/9/bits/streambuf.tcc:
+
 /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h:
 
 /usr/include/c++/9/bits/basic_ios.h:
 
 /usr/include/c++/9/fstream:
+
+/usr/include/c++/9/bits/stl_heap.h:
 
 /usr/include/c++/9/bits/alloc_traits.h:
 
@@ -2232,10 +2252,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/c++/9/utility:
 
 /usr/include/c++/9/bits/concept_check.h:
-
-/usr/include/glm/ext/vector_uint4_sized.hpp:
-
-/usr/include/glm/detail/type_mat3x3.inl:
 
 /usr/include/limits.h:
 
@@ -2315,6 +2331,8 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/c++/9/bits/ostream.tcc:
 
+/usr/include/glm/gtc/epsilon.hpp:
+
 /usr/include/glm/ext/matrix_float2x2_precision.hpp:
 
 /usr/include/stdc-predef.h:
@@ -2340,6 +2358,12 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/glm/ext/matrix_float4x3_precision.hpp:
 
 /usr/include/c++/9/ext/atomicity.h:
+
+/usr/include/c++/9/bits/stl_algo.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h:
+
+/usr/include/c++/9/type_traits:
 
 /usr/include/glm/detail/func_integer.inl:
 
@@ -2369,6 +2393,12 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/c++/9/bits/stl_relops.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h:
+
+/usr/include/c++/9/cstdlib:
+
+/usr/include/c++/9/bits/stl_tempbuf.h:
+
 /usr/include/SDL2/SDL_misc.h:
 
 /usr/include/c++/9/cstdint:
@@ -2380,6 +2410,10 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/c++/9/bits/streambuf_iterator.h:
 
 /usr/include/c++/9/bits/stringfwd.h:
+
+/usr/include/c++/9/climits:
+
+/usr/include/c++/9/bits/uniform_int_dist.h:
 
 /usr/include/c++/9/bits/uses_allocator.h:
 
@@ -2449,10 +2483,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 
 /usr/include/c++/9/system_error:
 
-/usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h:
-
-/usr/include/c++/9/type_traits:
-
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
 /usr/include/c++/9/typeinfo:
@@ -2464,8 +2494,6 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/SDL2/SDL_gesture.h:
 
 /usr/include/ctype.h:
-
-/usr/include/glm/detail/type_mat3x2.inl:
 
 /usr/include/math.h:
 
@@ -2492,7 +2520,3 @@ CMakeFiles/viewer.dir/src/viewer.cpp.o: /home/shriom/col781/COL781-Assignment-2/
 /usr/include/glm/detail/type_vec2.hpp:
 
 /usr/include/glm/detail/type_mat2x3.inl:
-
-/usr/include/glm/detail/type_mat3x2.hpp:
-
-/usr/include/glm/detail/type_mat3x3.hpp:
