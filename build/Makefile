@@ -194,6 +194,19 @@ umbrella/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/build
 .PHONY : umbrella/fast
 
+#=============================================================================
+# Target rules for targets named catmul
+
+# Build rule for target.
+catmul: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 catmul
+.PHONY : catmul
+
+# fast build rule for target.
+catmul/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/build
+.PHONY : catmul/fast
+
 deps/src/gl.o: deps/src/gl.c.o
 .PHONY : deps/src/gl.o
 
@@ -217,6 +230,30 @@ deps/src/gl.s: deps/src/gl.c.s
 deps/src/gl.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/viewer.dir/build.make CMakeFiles/viewer.dir/deps/src/gl.c.s
 .PHONY : deps/src/gl.c.s
+
+src/catmull_clark.o: src/catmull_clark.cpp.o
+.PHONY : src/catmull_clark.o
+
+# target to build an object file
+src/catmull_clark.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/src/catmull_clark.cpp.o
+.PHONY : src/catmull_clark.cpp.o
+
+src/catmull_clark.i: src/catmull_clark.cpp.i
+.PHONY : src/catmull_clark.i
+
+# target to preprocess a source file
+src/catmull_clark.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/src/catmull_clark.cpp.i
+.PHONY : src/catmull_clark.cpp.i
+
+src/catmull_clark.s: src/catmull_clark.cpp.s
+.PHONY : src/catmull_clark.s
+
+# target to generate assembly for a file
+src/catmull_clark.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/src/catmull_clark.cpp.s
+.PHONY : src/catmull_clark.cpp.s
 
 src/example.o: src/example.cpp.o
 .PHONY : src/example.o
@@ -418,6 +455,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... catmul"
 	@echo "... cube"
 	@echo "... example"
 	@echo "... sphere"
@@ -427,6 +465,9 @@ help:
 	@echo "... deps/src/gl.o"
 	@echo "... deps/src/gl.i"
 	@echo "... deps/src/gl.s"
+	@echo "... src/catmull_clark.o"
+	@echo "... src/catmull_clark.i"
+	@echo "... src/catmull_clark.s"
 	@echo "... src/example.o"
 	@echo "... src/example.i"
 	@echo "... src/example.s"

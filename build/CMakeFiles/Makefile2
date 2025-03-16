@@ -69,6 +69,7 @@ all: CMakeFiles/square.dir/all
 all: CMakeFiles/sphere.dir/all
 all: CMakeFiles/cube.dir/all
 all: CMakeFiles/umbrella.dir/all
+all: CMakeFiles/catmul.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -82,6 +83,7 @@ clean: CMakeFiles/square.dir/clean
 clean: CMakeFiles/sphere.dir/clean
 clean: CMakeFiles/cube.dir/clean
 clean: CMakeFiles/umbrella.dir/clean
+clean: CMakeFiles/catmul.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -91,7 +93,7 @@ clean: CMakeFiles/umbrella.dir/clean
 CMakeFiles/viewer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/viewer.dir/build.make CMakeFiles/viewer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/viewer.dir/build.make CMakeFiles/viewer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=11,12,13,14,15 "Built target viewer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=13,14,15,16,17 "Built target viewer"
 .PHONY : CMakeFiles/viewer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -117,7 +119,7 @@ CMakeFiles/viewer.dir/clean:
 CMakeFiles/example.dir/all: CMakeFiles/viewer.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=3,4 "Built target example"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=5,6 "Built target example"
 .PHONY : CMakeFiles/example.dir/all
 
 # Build rule for subdir invocation for target.
@@ -143,7 +145,7 @@ CMakeFiles/example.dir/clean:
 CMakeFiles/square.dir/all: CMakeFiles/viewer.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=7,8 "Built target square"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=9,10 "Built target square"
 .PHONY : CMakeFiles/square.dir/all
 
 # Build rule for subdir invocation for target.
@@ -169,7 +171,7 @@ CMakeFiles/square.dir/clean:
 CMakeFiles/sphere.dir/all: CMakeFiles/viewer.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sphere.dir/build.make CMakeFiles/sphere.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sphere.dir/build.make CMakeFiles/sphere.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=5,6 "Built target sphere"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=7,8 "Built target sphere"
 .PHONY : CMakeFiles/sphere.dir/all
 
 # Build rule for subdir invocation for target.
@@ -195,7 +197,7 @@ CMakeFiles/sphere.dir/clean:
 CMakeFiles/cube.dir/all: CMakeFiles/viewer.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=1,2 "Built target cube"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=3,4 "Built target cube"
 .PHONY : CMakeFiles/cube.dir/all
 
 # Build rule for subdir invocation for target.
@@ -221,7 +223,7 @@ CMakeFiles/cube.dir/clean:
 CMakeFiles/umbrella.dir/all: CMakeFiles/viewer.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=9,10 "Built target umbrella"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=11,12 "Built target umbrella"
 .PHONY : CMakeFiles/umbrella.dir/all
 
 # Build rule for subdir invocation for target.
@@ -239,6 +241,32 @@ umbrella: CMakeFiles/umbrella.dir/rule
 CMakeFiles/umbrella.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/clean
 .PHONY : CMakeFiles/umbrella.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/catmul.dir
+
+# All Build rule for target.
+CMakeFiles/catmul.dir/all: CMakeFiles/viewer.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=1,2 "Built target catmul"
+.PHONY : CMakeFiles/catmul.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/catmul.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles 7
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/catmul.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles 0
+.PHONY : CMakeFiles/catmul.dir/rule
+
+# Convenience name for target.
+catmul: CMakeFiles/catmul.dir/rule
+.PHONY : catmul
+
+# clean rule for target.
+CMakeFiles/catmul.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/clean
+.PHONY : CMakeFiles/catmul.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

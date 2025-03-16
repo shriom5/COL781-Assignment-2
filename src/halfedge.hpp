@@ -33,6 +33,7 @@ class MeshFace{
         vec3 normal;
         MeshFace(HalfEdge*,vec3);
         std::vector<int> getFaceVertices();
+        std::vector<HalfEdge*> getFaceEdges();
 };
 
 class MeshVertex{
@@ -66,6 +67,7 @@ class Mesh{
     void addNoise(float maxnoise);
     void printAdjacentVertices();
     void umbrellaOperator(float lambda, int iterations);
+    void catmullClarkSubdivision();
 };
 
 

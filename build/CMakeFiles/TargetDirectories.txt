@@ -4,5 +4,6 @@
 /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles/sphere.dir
 /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles/cube.dir
 /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles/umbrella.dir
+/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles/catmul.dir
 /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles/edit_cache.dir
 /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles/rebuild_cache.dir

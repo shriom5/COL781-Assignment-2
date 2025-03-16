@@ -58,4 +58,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/sphere.dir/DependInfo.cmake"
   "CMakeFiles/cube.dir/DependInfo.cmake"
   "CMakeFiles/umbrella.dir/DependInfo.cmake"
+  "CMakeFiles/catmul.dir/DependInfo.cmake"
   )

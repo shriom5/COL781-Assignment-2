@@ -27,10 +27,25 @@ std::vector<int> MeshFace::getFaceVertices()
     std::vector<int> faceVertices;
     HalfEdge *start = this->edge;
     HalfEdge *current = start;
-
     do
     {
         faceVertices.emplace_back(current->vertexIndex);
+        current=current->next;
+
+    } while (current!=start);
+
+    return faceVertices;
+}
+
+std::vector<HalfEdge *> MeshFace::getFaceEdges()
+{
+    std::vector<HalfEdge *> faceVertices;
+    HalfEdge *start = this->edge;
+    HalfEdge *current = start;
+
+    do
+    {
+        faceVertices.emplace_back(current);
         current=current->next;
     } while (current!=start);
 
@@ -151,6 +166,7 @@ void Mesh::triangulate()
     for(auto face:faces)
     {
         std::vector<int> faceVertices = face.getFaceVertices();
+        // std::cout<<"reached here in face"<<std::endl;
         vertexPerFace.emplace_back(faceVertices);
         normals.emplace_back(face.normal);
         int n = faceVertices.size();
@@ -293,9 +309,10 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     // {
     //     std::cout<<x.position.x<<" "<<x.position.y<<" "<<x.position.z<<std::endl;
     // }
-
     this->getEdges();
     this->triangulate();
+
+    // std::cout<<"reached here"<<std::endl;
 
     int totalVertices=vertices.size(), numberOfTriangles=this->triangles.size(), numberofEdges=this->edges.size();
 
@@ -346,7 +363,7 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
         if(done.find(i)==done.end())
         {
             std::cerr<<"Error in normal allotment\n";
-            return;
+            // return;
         }
     }
     // std::cout<<"checking for vertices"<<std::endl;
@@ -391,6 +408,8 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     // {
     //     std::cout<<renderNormals[i].x<<" "<<renderNormals[i].y<<" "<<renderNormals[i].z<<std::endl;
     // }
+
+    // std::cout<<"reached successfully here"<<std::endl;
 
     viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
 
@@ -561,6 +580,220 @@ void Mesh::umbrellaOperator(float lambda, int iterations)
         }
         for(int j=0;j<n;j++) this->vertices[j].position+=deltas[j];
     }
+}
+
+/*Catmul clark subdivision*/
+void Mesh::catmullClarkSubdivision()
+{
+    std::map<int,std::vector<vec3>> facePoints;
+    int numberofFaces=this->faces.size(), numberofVertices=this->vertices.size();
+    std::vector<vec3> faceAvg(this->faces.size());
+    for(int i=0;i<numberofFaces;i++)
+    {
+        //Compute the facepoint, the normals we will implement in the viewMesh code
+        std::vector<int> currFaceVertices = this->faces[i].getFaceVertices();
+        int numberOfVertices = currFaceVertices.size();
+        vec3 facePoint(0.0f);
+        for(int vertex:currFaceVertices) facePoint+=this->vertices[vertex].position;
+        facePoint/=(float)numberOfVertices;
+
+        for(auto x:currFaceVertices)
+        {
+            facePoints[x].push_back(facePoint);
+        }
+        faceAvg[i]=facePoint;
+    }
+    //We now compute the new vertex positions
+    std::vector<vec3> newPos(numberofVertices);
+
+    for(int i=0;i<numberofVertices;i++)
+    {
+        std::vector<int> neighborVertices = this->vertices[i].getAdjacentVertices();
+
+        int n = neighborVertices.size();
+
+        if(facePoints.find(i)==facePoints.end()) std::cout<<"Error in allotting facepoints"<<std::endl;
+
+        if(n!=facePoints[i].size())
+        {
+            std::cout<<"Error in mesh connectivity"<<std::endl;
+        }
+
+        if(n==0)
+        {
+            std::cout<<"No faces adjacent to the vertex "<<i<<std::endl;
+            return;
+        }
+
+        float m1=(float)(n-3)/(float)n;
+        float m2=(float)(1)/float(n);
+        float m3=(float)(2)/float(n);
+
+        //calculate the average of midedges
+        vec3 midEdge(0.0f);
+        for(auto x:neighborVertices)
+        {
+            midEdge+=(this->vertices[i].position+this->vertices[x].position)/(float)2;
+        }
+        midEdge/=(float)n;
+        //get the average of the adjacent facePoints
+        vec3 adjFacepoints(0.0f);
+        for(vec3 point:facePoints[i])
+        {
+            adjFacepoints+=point;
+        }
+        adjFacepoints/=(float)(n);
+        
+        newPos[i]=m1*this->vertices[i].position+m2*adjFacepoints+m3*midEdge;
+    }
+
+    // for(int i=0;i<numberofVertices;i++)
+    // {
+    //     std::cout<<this->vertices[i].position.x<<" "<<this->vertices[i].position.y<<" "<<this->vertices[i].position.z<<std::endl;
+    //     std::cout<<newPos[i].x<<" "<<newPos[i].y<<" "<<newPos[i].z<<std::endl;
+    // }
+
+    for(int i=0;i<numberofVertices;i++) this->vertices[i].position=newPos[i];
+
+    //Store the edge points for each halfEdge
+    std::map<HalfEdge *,int> edgePoint;
+    for(int i=0;i<this->halfEdges.size();i++)
+    {
+        vec3 p1 = this->vertices[this->halfEdges[i]->vertexIndex].position;
+        if(this->halfEdges[i]->twin==nullptr)
+        {
+            std::cout<<"Error with the mesh"<<std::endl;
+        }
+        vec3 p2 = this->vertices[this->halfEdges[i]->twin->vertexIndex].position;
+        if(this->halfEdges[i]->vertexIndex==this->halfEdges[i]->twin->vertexIndex)
+        {
+            std::cout<<"Error in twin allotment"<<std::endl;
+        }
+        p1+=p2;
+        p1/=(float)2;
+        if(edgePoint.find(this->halfEdges[i])==edgePoint.end())
+        {
+            MeshVertex ep = MeshVertex(nullptr,p1);
+            this->vertices.emplace_back(ep);
+            // std::cout<<"fresh edge point"<<std::endl;
+            edgePoint[this->halfEdges[i]]=this->vertices.size()-1;
+            edgePoint[this->halfEdges[i]->twin]=this->vertices.size()-1;
+        }
+    }
+
+    //We will now make the new faces
+    std::vector<MeshFace> newFaces;
+    std::vector<HalfEdge* >newEdges;
+    std::map<HalfEdge*,std::pair<HalfEdge*,HalfEdge*>> twinInfo;
+    for(int i=0;i<this->halfEdges.size();i++)
+    {
+        twinInfo[this->halfEdges[i]]=std::make_pair(nullptr,nullptr);
+    }
+    for(int i=0;i<numberofFaces;i++)
+    {
+        vec3 facePoint = faceAvg[i];
+        MeshVertex currFaceVertex = MeshVertex(nullptr,facePoint);
+
+        this->vertices.emplace_back(currFaceVertex);
+        int idx = this->vertices.size()-1;
+
+        //Get all vertices of this face
+        std::vector<int> currVertices = this->faces[i].getFaceVertices();
+        //Get all HalfEdges associated with this face
+        std::vector<HalfEdge *> currEdges = this->faces[i].getFaceEdges();
+
+        int n = currVertices.size(); //This is the number of new quads that will be formed;
+        std::vector<MeshFace> currNewFaces;
+        for(int j=0;j<n;j++)
+        {
+            int l1=currVertices[j];
+            if(edgePoint.find(currEdges[j])==edgePoint.end())
+            {
+                std::cout<<"Error in finding edgepoints"<<std::endl;
+            }
+            int l2=edgePoint[currEdges[j]];
+            int l3=idx;
+            int l4=edgePoint[currEdges[(n+j-1)%n]];
+
+            HalfEdge *e1=new HalfEdge(l1);
+            HalfEdge *e2=new HalfEdge(l2);
+            HalfEdge *e3=new HalfEdge(l3);
+            HalfEdge *e4=new HalfEdge(l4);
+
+            e1->next=e2;
+            e2->next=e3;
+            e3->next=e4;
+            e4->next=e1;
+            newEdges.emplace_back(e1);
+            newEdges.emplace_back(e2);
+            newEdges.emplace_back(e3);
+            newEdges.emplace_back(e4);
+
+            MeshFace currFace = MeshFace(e1,this->faces[i].normal);
+            currNewFaces.emplace_back(currFace);
+
+            this->vertices[l1].edge=e1;
+            this->vertices[l2].edge=e2;
+            this->vertices[l3].edge=e3;
+            this->vertices[l4].edge=e4;
+
+            //twin allotment
+            if(j>0)
+            {
+                e3->twin=currNewFaces[j-1].edge->next;
+                currNewFaces[j-1].edge->next->twin=e3;
+            }
+            if(j==n-1)
+            {
+                e2->twin=currNewFaces[0].edge->next->next;
+                currNewFaces[0].edge->next->next->twin=e2;
+            }
+            //twins for the old edges
+            twinInfo[currEdges[j]].first=e1;
+            twinInfo[currEdges[(j+n-1)%n]].second=e4;
+        }
+        for(auto f:currNewFaces) newFaces.emplace_back(f);
+    }
+    for(auto x:twinInfo)
+    {
+        HalfEdge *old = x.first;
+        HalfEdge *bhai = x.first->twin;
+        if(twinInfo[old].first==NULL || twinInfo[bhai].second==NULL)
+        {
+            std::cout<<"error in making new edges"<<std::endl;
+        }
+        twinInfo[old].first->twin=twinInfo[bhai].second;
+        twinInfo[bhai].second->twin=twinInfo[old].first;
+        if(twinInfo[old].second==NULL || twinInfo[bhai].first==NULL)
+        {
+            std::cout<<"error in making new edges"<<std::endl;
+        }
+        twinInfo[old].second->twin=twinInfo[bhai].first;
+        twinInfo[bhai].first->twin=twinInfo[old].second;
+    }
+    // std::cout<<newFaces.size()<<std::endl;
+    // this->faces=newFaces;
+    for(auto f:newFaces)
+    {
+        if(f.edge->twin==NULL || f.edge->next->next->next->twin==NULL)
+        {
+            std::cout<<"type1"<<std::endl;
+        }
+        else if (f.edge->next->twin==NULL || f.edge->next->next->twin==NULL)
+        {
+            std::cout<<"type2"<<std::endl;
+        }
+    }
+    // std::cout<<this->vertices.size()<<std::endl;
+    for(int i=0;i<newEdges.size();i++)
+    {
+        if(newEdges[i]->twin==NULL)
+        {
+            std::cout<<"cooked "<<i<<std::endl;
+        }
+    }
+    this->halfEdges=newEdges;
+    this->faces=newFaces;   
 }
 
 /* The below functions are AI generated*/
