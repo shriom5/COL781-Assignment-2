@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <random>
 
 using namespace glm;
 
@@ -41,6 +42,7 @@ class MeshVertex{
         //boundary check
         MeshVertex(HalfEdge*,vec3);
         std::vector<HalfEdge*> getAdjacentFaces();
+        std::vector<int> getAdjacentVertices();
 };
 
 class Mesh{
@@ -61,8 +63,12 @@ class Mesh{
     void viewMesh2(COL781::Viewer::Viewer &viewer);
     void extrudeFace(int faceIndex, float distance);
     void extrudeFace(vec3 point, float distance);
+    void addNoise(float maxnoise);
+    void printAdjacentVertices();
+    void umbrellaOperator(float lambda, int iterations);
 };
 
 
 float pointToSegmentDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b);
 float pointToTriangleDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b, const glm::vec3& c);
+float randomFloat(float min, float max);

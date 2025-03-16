@@ -26,6 +26,7 @@ Mesh unitCube(int m, int n, int o)
             // std::cout<<position.x<<" "<<position.y<<" "<<position.z<<std::endl;
         }
     }
+    // std::cout<<vertices.size()<<std::endl;
     //faces
     for(int i=0;i<o;i++)
     {
@@ -283,7 +284,7 @@ Mesh unitCube(int m, int n, int o)
 
 int main() {
     //Create a unit square mesh
-    Mesh check=unitCube(3,3,3);
+    Mesh check=unitCube(10,10,10);
 
     // check.triangulate();
 
@@ -294,7 +295,12 @@ int main() {
     // check.extrudeFace(49,0.4);
     // check.extrudeFace(13,0.4);
 
-    check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
+    // check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
+
+    check.addNoise(0.03);
+    check.umbrellaOperator(0.01,50);
+
+    // check.printAdjacentVertices(); 
 
     check.viewMesh(v);
 

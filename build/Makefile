@@ -181,6 +181,19 @@ cube/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/build
 .PHONY : cube/fast
 
+#=============================================================================
+# Target rules for targets named umbrella
+
+# Build rule for target.
+umbrella: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 umbrella
+.PHONY : umbrella
+
+# fast build rule for target.
+umbrella/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/build
+.PHONY : umbrella/fast
+
 deps/src/gl.o: deps/src/gl.c.o
 .PHONY : deps/src/gl.o
 
@@ -301,6 +314,30 @@ src/square.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/square.dir/build.make CMakeFiles/square.dir/src/square.cpp.s
 .PHONY : src/square.cpp.s
 
+src/umbrella.o: src/umbrella.cpp.o
+.PHONY : src/umbrella.o
+
+# target to build an object file
+src/umbrella.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/src/umbrella.cpp.o
+.PHONY : src/umbrella.cpp.o
+
+src/umbrella.i: src/umbrella.cpp.i
+.PHONY : src/umbrella.i
+
+# target to preprocess a source file
+src/umbrella.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/src/umbrella.cpp.i
+.PHONY : src/umbrella.cpp.i
+
+src/umbrella.s: src/umbrella.cpp.s
+.PHONY : src/umbrella.s
+
+# target to generate assembly for a file
+src/umbrella.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/src/umbrella.cpp.s
+.PHONY : src/umbrella.cpp.s
+
 src/unitcube.o: src/unitcube.cpp.o
 .PHONY : src/unitcube.o
 
@@ -385,6 +422,7 @@ help:
 	@echo "... example"
 	@echo "... sphere"
 	@echo "... square"
+	@echo "... umbrella"
 	@echo "... viewer"
 	@echo "... deps/src/gl.o"
 	@echo "... deps/src/gl.i"
@@ -401,6 +439,9 @@ help:
 	@echo "... src/square.o"
 	@echo "... src/square.i"
 	@echo "... src/square.s"
+	@echo "... src/umbrella.o"
+	@echo "... src/umbrella.i"
+	@echo "... src/umbrella.s"
 	@echo "... src/unitcube.o"
 	@echo "... src/unitcube.i"
 	@echo "... src/unitcube.s"

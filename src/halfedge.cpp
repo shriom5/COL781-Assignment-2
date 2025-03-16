@@ -53,22 +53,60 @@ std::vector<HalfEdge*> MeshVertex::getAdjacentFaces()
     HalfEdge *start = this->edge;
     HalfEdge *current = start;
 
+    if(!current)
+    {
+        std::cout<<"No edge associated with the vertex"<<std::endl;
+    }
+
     do
     {
         adjacentFaces.emplace_back(current);
         if(current->twin==NULL)
         {
             //boundary face encountered
+            std::cout<<"some issue with the code please check"<<std::endl;
             break;
         }
         else
         {
+            // std::cout<<current->twin->vertexIndex<<" ";
             current = current->twin->next;
         }
 
     }while(current!=start);
-
+    // std::cout<<std::endl;
     return adjacentFaces;
+}
+
+std::vector<int> MeshVertex::getAdjacentVertices()
+{
+    std::vector<int> adjacentVertices;
+    HalfEdge *start = this->edge;
+    HalfEdge *current = start;
+
+    if(!current)
+    {
+        std::cout<<"No edge associated with the vertex"<<std::endl;
+    }
+
+    do
+    {
+        if(current->twin==NULL)
+        {
+            //boundary face encountered
+            std::cout<<"some issue with the code please check"<<std::endl;
+            break;
+        }
+        else
+        {
+            // std::cout<<current->twin->vertexIndex<<" ";
+            adjacentVertices.emplace_back(current->twin->vertexIndex);
+            current = current->twin->next;
+        }
+
+    }while(current!=start);
+    // std::cout<<std::endl;
+    return adjacentVertices;   
 }
 
 /*
@@ -482,6 +520,49 @@ void Mesh::extrudeFace(vec3 point, float distance)
     this->extrudeFace(idx,distance);
 }
 
+/*Addding random noise to the mesh*/
+void Mesh::addNoise(float maxnoise)
+{
+    for(int i=0;i<vertices.size();i++)
+    {
+        vec3 noise = vec3(randomFloat(-maxnoise,maxnoise),randomFloat(-maxnoise,maxnoise),randomFloat(-maxnoise,maxnoise));
+        vertices[i].position+=noise;
+    }
+}
+
+/*Getting neighbors and performing smoothing by umbrella operator*/
+void Mesh::printAdjacentVertices()
+{
+    for(int i=0;i<vertices.size();i++)
+    {
+        std::cout<<"Neighbors of vertex "<<i<<std::endl;
+        vertices[i].getAdjacentFaces();
+    }
+}
+
+void Mesh::umbrellaOperator(float lambda, int iterations)
+{
+    for(int i=0;i<iterations;i++)
+    {
+        int n=vertices.size();
+        std::vector<vec3> deltas(n);
+        for(int j=0;j<n;j++)
+        {
+            vec3 myPos=this->vertices[j].position;
+            std::vector<int> nbr=this->vertices[j].getAdjacentVertices();
+            vec3 sum=vec3(0.0f);
+            for(auto x:nbr)
+            {
+                sum+=this->vertices[x].position-myPos;
+            }
+            float k=nbr.size();
+            sum=(sum*lambda)/k;
+            deltas[j]=sum;
+        }
+        for(int j=0;j<n;j++) this->vertices[j].position+=deltas[j];
+    }
+}
+
 /* The below functions are AI generated*/
 
 float pointToSegmentDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b) {
@@ -526,4 +607,11 @@ float pointToTriangleDistance(const glm::vec3& p, const glm::vec3& a, const glm:
     float edgeDist3 = pointToSegmentDistance(p, c, a);
 
     return std::min({ edgeDist1, edgeDist2, edgeDist3 });
+}
+
+float randomFloat(float min, float max) {
+    static std::random_device rd;  // Non-deterministic random number generator
+    static std::mt19937 gen(rd()); // Mersenne Twister PRNG
+    std::uniform_real_distribution<float> dist(min, max);
+    return dist(gen);
 }

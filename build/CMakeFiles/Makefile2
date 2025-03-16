@@ -68,6 +68,7 @@ all: CMakeFiles/example.dir/all
 all: CMakeFiles/square.dir/all
 all: CMakeFiles/sphere.dir/all
 all: CMakeFiles/cube.dir/all
+all: CMakeFiles/umbrella.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -80,6 +81,7 @@ clean: CMakeFiles/example.dir/clean
 clean: CMakeFiles/square.dir/clean
 clean: CMakeFiles/sphere.dir/clean
 clean: CMakeFiles/cube.dir/clean
+clean: CMakeFiles/umbrella.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -89,7 +91,7 @@ clean: CMakeFiles/cube.dir/clean
 CMakeFiles/viewer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/viewer.dir/build.make CMakeFiles/viewer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/viewer.dir/build.make CMakeFiles/viewer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=9,10,11,12,13 "Built target viewer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=11,12,13,14,15 "Built target viewer"
 .PHONY : CMakeFiles/viewer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -211,6 +213,32 @@ cube: CMakeFiles/cube.dir/rule
 CMakeFiles/cube.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cube.dir/build.make CMakeFiles/cube.dir/clean
 .PHONY : CMakeFiles/cube.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/umbrella.dir
+
+# All Build rule for target.
+CMakeFiles/umbrella.dir/all: CMakeFiles/viewer.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/shriom/col781/COL781-Assignment-2/build/CMakeFiles --progress-num=9,10 "Built target umbrella"
+.PHONY : CMakeFiles/umbrella.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/umbrella.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles 7
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/umbrella.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shriom/col781/COL781-Assignment-2/build/CMakeFiles 0
+.PHONY : CMakeFiles/umbrella.dir/rule
+
+# Convenience name for target.
+umbrella: CMakeFiles/umbrella.dir/rule
+.PHONY : umbrella
+
+# clean rule for target.
+CMakeFiles/umbrella.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/umbrella.dir/build.make CMakeFiles/umbrella.dir/clean
+.PHONY : CMakeFiles/umbrella.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
