@@ -222,7 +222,7 @@ Mesh unitSphere(int m, int n)
 
 int main() {
     //Create a unit square mesh
-    Mesh check=unitSphere(40,40);
+    Mesh check=unitSphere(4,2);
 
     // check.triangulate();
 

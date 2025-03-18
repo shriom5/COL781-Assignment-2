@@ -6,10 +6,10 @@ Functions for half edge data structure
 
 HalfEdge::HalfEdge(int index)
 {
-    this->next=NULL;
-    this->twin=NULL;
+    this->next=nullptr;
+    this->twin=nullptr;
     this->vertexIndex=index;
-    this->face=NULL;
+    this->face=nullptr;
 }
 
 /*
@@ -149,7 +149,8 @@ void Mesh::getEdges()
             // std::cout<<curredge.x<<" "<<curredge.y<<std::endl;
         }
         else
-        {
+        {   
+            std::cout << "humpe toh hai hi naw" << std::endl;
             ivec2 curredge;
             curredge.x = edge->vertexIndex;
             curredge.y = edge->next->vertexIndex;
@@ -188,6 +189,10 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
 {
     this->getEdges();
     this->triangulate();
+
+    for(int i = 0; i < faces.size(); ++i) {
+        faces[i].normal = getFaceNormal(i);
+    }
 
     // std::cout<<"checking original vertices"<<std::endl;
     // for(auto x:this->vertices)
@@ -233,6 +238,14 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
     ivec3 renderTriangles[numberOfTriangles*sizeof(ivec3)];
     ivec2 renderEdges[numberofEdges*sizeof(ivec2)];
 
+    std::map<int, std::vector<int>> mp;
+
+    for(int i = 0; i < this->faces.size(); ++i) {
+        for(auto p: this->faces[i].getFaceVertices()) {
+            mp[p].emplace_back(i);
+        }
+    }
+
     count=0;
     int faceCount=0,triangleCount=0;
     // std::cout<<"checking for vertices"<<std::endl;
@@ -253,7 +266,8 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         {
             renderVertices[count]=this->vertices[y].position;
             // std::cout<<renderVertices[count].x<<" "<<renderVertices[count].y<<" "<<renderVertices[count].z<<std::endl;
-            renderNormals[count]=normal;
+            // renderNormals[count]=normal;
+            renderNormals[count] = getVertexNormal(mp[count]);
             count++;
         }
         faceCount++;
@@ -308,6 +322,10 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     this->getEdges();
     this->triangulate();
 
+    for(int i = 0; i < faces.size(); ++i) {
+        this->faces[i].normal = getFaceNormal(i);
+    }
+
     int totalVertices=vertices.size(), numberOfTriangles=this->triangles.size(), numberofEdges=this->edges.size();
 
     vec3 renderVertices[totalVertices*sizeof(vec3)];
@@ -360,12 +378,22 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
             // return;
         }
     }
+
+    std::map<int, std::vector<int>> mp;
+
+    for(int i = 0; i < this->faces.size(); ++i) {
+        for(auto p: this->faces[i].getFaceVertices()) {
+            mp[p].emplace_back(i);
+        }
+    }
+
     // std::cout<<"checking for vertices"<<std::endl;
     count=0;
     for(auto x:this->vertices)
     {
         renderVertices[count]=x.position;
-        renderNormals[count]=currNormals[count];
+        renderNormals[count] = getVertexNormal(mp[count]);
+        // renderNormals[count] = currNormals[count];
         // std::cout<<renderVertices[count].x<<" "<<renderVertices[count].y<<" "<<renderVertices[count].z<<std::endl;
         count++;
     }
@@ -535,12 +563,34 @@ void Mesh::extrudeFace(vec3 point, float distance)
 
 vec3 Mesh::getFaceNormal(int idx)
 {
-    vec3 d1, d2;
-    HalfEdge *start = this->faces[idx].edge;
-    d1=this->vertices[start->next->vertexIndex].position-this->vertices[start->vertexIndex].position;
-    d2=this->vertices[start->next->next->vertexIndex].position-this->vertices[start->next->vertexIndex].position;
-    vec3 normal = cross(d1,d2);
+    std::vector<int> faceVertices = (this->faces[idx]).getFaceVertices();
+
+    vec3 normal = vec3(0.0, 0.0, 0.0);
+    for(int i = 1; i < faceVertices.size() - 1; ++i) {
+        normal += (0.5f) * cross(
+            this->vertices[faceVertices[i]].position - this->vertices[faceVertices[0]].position,
+            this->vertices[faceVertices[i + 1]].position - this->vertices[faceVertices[0]].position
+            );
+    }
+
+    normal = normalize(normal);
     return normal;
+
+    // vec3 d1, d2;
+    // HalfEdge *start = this->faces[idx].edge;
+    // d1=this->vertices[start->next->vertexIndex].position-this->vertices[start->vertexIndex].position;
+    // d2=this->vertices[start->next->next->vertexIndex].position-this->vertices[start->next->vertexIndex].position;
+    // vec3 normal = cross(d1,d2);
+    // return normal;
+}
+
+vec3 Mesh::getVertexNormal(std::vector<int> adj) {
+    vec3 currnormal = vec3(0.0, 0.0, 0.0);
+    for(auto x: adj) {
+        currnormal += this->faces[x].normal;
+    }
+    currnormal = normalize(currnormal);
+    return currnormal;
 }
 
 void Mesh::extrudeMultiple(std::vector<int> &indices, float dist)
@@ -969,4 +1019,99 @@ float randomFloat(float min, float max) {
     static std::mt19937 gen(rd()); // Mersenne Twister PRNG
     std::uniform_real_distribution<float> dist(min, max);
     return dist(gen);
+}
+
+
+Mesh parseObjFile(const std::string &filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return Mesh{{}, {}, {}};
+    }
+
+    std::vector<HalfEdge*> hedges;
+    std::vector<MeshVertex> verts;
+    std::vector<MeshFace> faces;
+
+    std::vector<glm::vec3> vertices,  normals;
+    std::vector<glm::vec2> texCoords;
+
+    std::map<std::pair<int, int>, HalfEdge*> settings;
+
+    std::string line;
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::string op;
+        iss >> op;
+
+        if (op == "v") {
+            glm::vec3 v;
+            iss >> v.x >> v.y >> v.z;
+            verts.push_back(MeshVertex(nullptr, v));
+            // vertices.push_back(v);
+        } else if (op == "vt") {
+            glm::vec3 vt;
+            iss >> vt.x >> vt.y;
+            texCoords.push_back(vt);
+        } else if (op == "vn") {
+            glm::vec3 vn;
+            iss >> vn.x >> vn.y >> vn.z;
+            normals.push_back(vn);
+        } else if (op == "f") {
+            // std::cout << "new face" << std::endl;
+            std::string vertexData;
+            std::vector<int> vidx, tidx, nidx;
+            while (iss >> vertexData) {
+                std::istringstream viss(vertexData);
+                // std::cout << vertexData << std::endl;
+                std::string token;
+                int indices[3] = {0, 0, 0};
+                int i = 0;
+                while (std::getline(viss, token, '/') && i < 3) {
+                    if (!token.empty()) {
+                        indices[i] = std::stoi(token);
+                    }
+                    i++;
+                }
+                vidx.push_back(indices[0] - 1);
+                tidx.push_back(indices[1] - 1);
+                nidx.push_back(indices[2] - 1);
+            }
+            // faces.push_back(face);
+            for(int i = 0; i < vidx.size(); ++i) {
+                if(nidx[i] != -1) {
+                    verts[vidx[i]].normal = normals[nidx[i]];
+                }
+            }
+            for(int i = 0; i < vidx.size(); ++i) {
+                HalfEdge* currhe = new HalfEdge(vidx[i]);
+                hedges.emplace_back(currhe);
+                if(verts[vidx[i]].edge == nullptr) {
+                    verts[vidx[i]].edge = currhe;
+                }
+            }
+            for(int i = 0; i < vidx.size(); ++i) {
+                int idx = hedges.size() - vidx.size() + i;
+                int nextidx = hedges.size() - vidx.size() + ((i + 1) % vidx.size());
+                hedges[idx]->next = hedges[nextidx];
+                settings[{hedges[idx]->vertexIndex, hedges[idx]->next->vertexIndex}] = hedges[idx];
+                if(settings.find({hedges[idx]->next->vertexIndex, hedges[idx]->vertexIndex}) != settings.end()) {
+                    HalfEdge *tw = settings[{hedges[idx]->next->vertexIndex, hedges[idx]->vertexIndex}];
+                    hedges[idx]->twin = tw;
+                    tw->twin = hedges[idx];
+                }
+            }
+            faces.emplace_back(MeshFace(hedges.back(), vec3(0.0, 0.0, 0.0)));
+            for(int i = 0; i < vidx.size(); ++i) {
+                int idx = hedges.size() - vidx.size() + i;
+                hedges[idx]->face = &faces.back();
+            }
+        }
+    }
+    file.close();
+    Mesh newMesh = Mesh(hedges, verts, faces);
+    for(int i = 0; i < newMesh.faces.size(); ++i) {
+        newMesh.faces[i].normal = newMesh.getFaceNormal(i);
+    }
+    return newMesh;
 }

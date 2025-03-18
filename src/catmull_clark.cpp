@@ -296,7 +296,7 @@ int main() {
     }
 
     // check.viewMesh2(v);
-    check.viewMesh(v);
+    check.viewMesh2(v);
 
     //Memory cleanup
 

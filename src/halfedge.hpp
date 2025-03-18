@@ -1,4 +1,6 @@
 //Half edge data structure
+
+#define GLM_ENABLE_EXPERIMENTAL
 #include "viewer.hpp"
 #include <iostream>
 #include <glm/glm.hpp>
@@ -11,6 +13,7 @@
 #include <string>
 #include <algorithm>
 #include <random>
+#include <sstream>
 
 using namespace glm;
 
@@ -40,6 +43,7 @@ class MeshVertex{
     public:
         HalfEdge *edge;
         vec3 position;
+        vec3 normal;
         //boundary check
         MeshVertex(HalfEdge*,vec3);
         std::vector<HalfEdge*> getAdjacentFaces();
@@ -72,9 +76,12 @@ class Mesh{
     void addMesh(Mesh &m);
     void moveMesh(vec3 direction);
     vec3 getFaceNormal(int faceIndex);
+    vec3 getVertexNormal(std::vector<int>);
 };
 
 
 float pointToSegmentDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b);
 float pointToTriangleDistance(const glm::vec3& p, const glm::vec3& a, const glm::vec3& b, const glm::vec3& c);
 float randomFloat(float min, float max);
+
+Mesh parseObjFile(const std::string &filename);

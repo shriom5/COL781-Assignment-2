@@ -294,7 +294,7 @@ int main() {
     std::vector<int> ind={0,36,11};
     check.extrudeMultiple(ind,0.2);
 
-    check.viewMesh(v);
+    check.viewMesh2(v);
 
     //Memory cleanup
 

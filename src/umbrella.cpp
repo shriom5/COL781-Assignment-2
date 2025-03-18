@@ -302,7 +302,7 @@ int main() {
 
     // check.printAdjacentVertices(); 
 
-    check.viewMesh(v);
+    check.viewMesh2(v);
 
     //Memory cleanup
 

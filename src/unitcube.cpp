@@ -296,7 +296,7 @@ int main() {
 
     // check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
 
-    check.viewMesh(v);
+    check.viewMesh2(v);
 
     //Memory cleanup
 
