@@ -207,6 +207,32 @@ catmul/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/build
 .PHONY : catmul/fast
 
+#=============================================================================
+# Target rules for targets named custom
+
+# Build rule for target.
+custom: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 custom
+.PHONY : custom
+
+# fast build rule for target.
+custom/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/custom.dir/build.make CMakeFiles/custom.dir/build
+.PHONY : custom/fast
+
+#=============================================================================
+# Target rules for targets named extrude
+
+# Build rule for target.
+extrude: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 extrude
+.PHONY : extrude
+
+# fast build rule for target.
+extrude/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extrude.dir/build.make CMakeFiles/extrude.dir/build
+.PHONY : extrude/fast
+
 deps/src/gl.o: deps/src/gl.c.o
 .PHONY : deps/src/gl.o
 
@@ -255,6 +281,30 @@ src/catmull_clark.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/catmul.dir/build.make CMakeFiles/catmul.dir/src/catmull_clark.cpp.s
 .PHONY : src/catmull_clark.cpp.s
 
+src/custom.o: src/custom.cpp.o
+.PHONY : src/custom.o
+
+# target to build an object file
+src/custom.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/custom.dir/build.make CMakeFiles/custom.dir/src/custom.cpp.o
+.PHONY : src/custom.cpp.o
+
+src/custom.i: src/custom.cpp.i
+.PHONY : src/custom.i
+
+# target to preprocess a source file
+src/custom.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/custom.dir/build.make CMakeFiles/custom.dir/src/custom.cpp.i
+.PHONY : src/custom.cpp.i
+
+src/custom.s: src/custom.cpp.s
+.PHONY : src/custom.s
+
+# target to generate assembly for a file
+src/custom.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/custom.dir/build.make CMakeFiles/custom.dir/src/custom.cpp.s
+.PHONY : src/custom.cpp.s
+
 src/example.o: src/example.cpp.o
 .PHONY : src/example.o
 
@@ -278,6 +328,30 @@ src/example.s: src/example.cpp.s
 src/example.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/example.cpp.s
 .PHONY : src/example.cpp.s
+
+src/extrude.o: src/extrude.cpp.o
+.PHONY : src/extrude.o
+
+# target to build an object file
+src/extrude.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extrude.dir/build.make CMakeFiles/extrude.dir/src/extrude.cpp.o
+.PHONY : src/extrude.cpp.o
+
+src/extrude.i: src/extrude.cpp.i
+.PHONY : src/extrude.i
+
+# target to preprocess a source file
+src/extrude.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extrude.dir/build.make CMakeFiles/extrude.dir/src/extrude.cpp.i
+.PHONY : src/extrude.cpp.i
+
+src/extrude.s: src/extrude.cpp.s
+.PHONY : src/extrude.s
+
+# target to generate assembly for a file
+src/extrude.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extrude.dir/build.make CMakeFiles/extrude.dir/src/extrude.cpp.s
+.PHONY : src/extrude.cpp.s
 
 src/halfedge.o: src/halfedge.cpp.o
 .PHONY : src/halfedge.o
@@ -457,7 +531,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... catmul"
 	@echo "... cube"
+	@echo "... custom"
 	@echo "... example"
+	@echo "... extrude"
 	@echo "... sphere"
 	@echo "... square"
 	@echo "... umbrella"
@@ -468,9 +544,15 @@ help:
 	@echo "... src/catmull_clark.o"
 	@echo "... src/catmull_clark.i"
 	@echo "... src/catmull_clark.s"
+	@echo "... src/custom.o"
+	@echo "... src/custom.i"
+	@echo "... src/custom.s"
 	@echo "... src/example.o"
 	@echo "... src/example.i"
 	@echo "... src/example.s"
+	@echo "... src/extrude.o"
+	@echo "... src/extrude.i"
+	@echo "... src/extrude.s"
 	@echo "... src/halfedge.o"
 	@echo "... src/halfedge.i"
 	@echo "... src/halfedge.s"

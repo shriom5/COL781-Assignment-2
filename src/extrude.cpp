@@ -3,7 +3,7 @@
 
 namespace V = COL781::Viewer;
 using namespace glm;
- 
+
 Mesh unitCube(int m, int n, int o)
 {
     //unit cube with m,n,o divisions across x,y,z axis
@@ -26,7 +26,6 @@ Mesh unitCube(int m, int n, int o)
             // std::cout<<position.x<<" "<<position.y<<" "<<position.z<<std::endl;
         }
     }
-    // std::cout<<vertices.size()<<std::endl;
     //faces
     for(int i=0;i<o;i++)
     {
@@ -283,19 +282,18 @@ Mesh unitCube(int m, int n, int o)
 }
 
 int main() {
-    Mesh check=unitCube(1,1,1);
+    //Create a unit square mesh
+    Mesh check=unitCube(3,3,3);
+
+    // check.triangulate();
 
     V::Viewer v;
     if (!v.initialize("Mesh viewer", 640, 480)) {
         return EXIT_FAILURE;
     }
+    std::vector<int> ind={0,36,11};
+    check.extrudeMultiple(ind,0.2);
 
-    for(int i=0;i<3;i++)
-    {
-        check.catmullClarkSubdivision();
-    }
-
-    // check.viewMesh2(v);
     check.viewMesh(v);
 
     //Memory cleanup

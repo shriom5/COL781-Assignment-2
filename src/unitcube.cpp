@@ -294,7 +294,7 @@ int main() {
     // check.extrudeFace(49,0.4);
     // check.extrudeFace(13,0.4);
 
-    check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
+    // check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
 
     check.viewMesh(v);
 

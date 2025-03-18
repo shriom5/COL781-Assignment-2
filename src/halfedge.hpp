@@ -64,10 +64,14 @@ class Mesh{
     void viewMesh2(COL781::Viewer::Viewer &viewer);
     void extrudeFace(int faceIndex, float distance);
     void extrudeFace(vec3 point, float distance);
+    void extrudeMultiple(std::vector<int> &indices, float dist);
     void addNoise(float maxnoise);
     void printAdjacentVertices();
     void umbrellaOperator(float lambda, int iterations);
     void catmullClarkSubdivision();
+    void addMesh(Mesh &m);
+    void moveMesh(vec3 direction);
+    vec3 getFaceNormal(int faceIndex);
 };
 
 

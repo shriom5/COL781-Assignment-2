@@ -153,6 +153,7 @@ void Mesh::getEdges()
             ivec2 curredge;
             curredge.x = edge->vertexIndex;
             curredge.y = edge->next->vertexIndex;
+            if(curredge.x!=curredge.y) edges.emplace_back(curredge);
             // edges.emplace_back(curredge);
         }
     }
@@ -304,15 +305,8 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
 
 void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
 {
-    // std::cout<<"original vertices"<<std::endl;
-    // for(auto x:this->vertices)
-    // {
-    //     std::cout<<x.position.x<<" "<<x.position.y<<" "<<x.position.z<<std::endl;
-    // }
     this->getEdges();
     this->triangulate();
-
-    // std::cout<<"reached here"<<std::endl;
 
     int totalVertices=vertices.size(), numberOfTriangles=this->triangles.size(), numberofEdges=this->edges.size();
 
@@ -539,6 +533,110 @@ void Mesh::extrudeFace(vec3 point, float distance)
     this->extrudeFace(idx,distance);
 }
 
+vec3 Mesh::getFaceNormal(int idx)
+{
+    vec3 d1, d2;
+    HalfEdge *start = this->faces[idx].edge;
+    d1=this->vertices[start->next->vertexIndex].position-this->vertices[start->vertexIndex].position;
+    d2=this->vertices[start->next->next->vertexIndex].position-this->vertices[start->next->vertexIndex].position;
+    vec3 normal = cross(d1,d2);
+    return normal;
+}
+
+void Mesh::extrudeMultiple(std::vector<int> &indices, float dist)
+{
+    std::map<HalfEdge *,int> currEdges;
+    std::map<int,std::vector<vec3>> faceNormals; 
+    for(auto x:indices)
+    {
+        std::vector<HalfEdge*> faceEdges = this->faces[x].getFaceEdges();
+        for(auto y:faceEdges)
+        {
+            currEdges[y]=1;
+        }
+        std::vector<int> faceVertices = this->faces[x].getFaceVertices();
+        for(auto y:faceVertices)
+        {
+            faceNormals[y].emplace_back(getFaceNormal(x));
+        }
+    }
+    std::map<int,vec3> newPositions;
+    std::map<int,int> newIndices;
+    std::map<int,vec3> newNormals;
+    for(auto x:faceNormals)
+    {
+        vec3 normal(0.0f);
+        for(auto y:x.second)
+        {
+            normal+=y;
+        }
+        normal=normalize(normal);
+        newNormals[x.first]=normal;
+        newPositions[x.first]=this->vertices[x.first].position+dist*normal;
+        vertices.emplace_back(MeshVertex(nullptr,newPositions[x.first]));
+        newIndices[x.first]=vertices.size()-1;
+    }
+    std::map<int,int> twinHelp;
+    //make new quads
+    for(auto x:currEdges)
+    {
+        HalfEdge *currEdge = x.first;
+        //ignore the internal edges
+        if(currEdges.find(currEdge->twin)!=currEdges.end()) continue;
+        int l1=currEdge->vertexIndex, l2=currEdge->next->vertexIndex, l3=newIndices[l2], l4=newIndices[l1];
+        HalfEdge *e1 = new HalfEdge(l1);
+        HalfEdge *e2 = new HalfEdge(l2);
+        HalfEdge *e3 = new HalfEdge(l3);
+        HalfEdge *e4 = new HalfEdge(l4);
+
+        e1->next=e2;
+        e2->next=e3;
+        e3->next=e4;
+        e4->next=e1;
+
+        this->halfEdges.emplace_back(e1);
+        this->halfEdges.emplace_back(e2);
+        this->halfEdges.emplace_back(e3);
+        this->halfEdges.emplace_back(e4);
+
+        //release the twin
+        x.first->twin->twin=e1;
+        e1->twin=x.first->twin;
+
+        //attach
+        e3->twin=x.first;
+        x.first->twin=e3;
+
+        vec3 d1=this->vertices[l2].position-this->vertices[l1].position;
+        vec3 normal = cross(d1,newNormals[l1]);
+        MeshFace currFace = MeshFace(e1,normal);
+        this->faces.emplace_back(currFace);
+        twinHelp[l1]=this->faces.size()-1;
+    }
+    // assign twins
+    for(auto x:currEdges)
+    {
+        HalfEdge *currEdge = x.first;
+        if(currEdges.find(currEdge->twin)==currEdges.end())
+        {
+            int f1 = twinHelp[currEdge->vertexIndex];
+            int f2 = twinHelp[currEdge->next->vertexIndex];
+            this->faces[f1].edge->next->twin=this->faces[f2].edge->next->next->next;
+            this->faces[f2].edge->next->next->next->twin=this->faces[f1].edge->next;
+        }
+    }
+
+    //make new top face
+    for(auto x:indices)
+    {
+        std::vector<HalfEdge *> faceEdges = this->faces[x].getFaceEdges();
+        for(auto y:faceEdges)
+        {
+            y->vertexIndex=newIndices[y->vertexIndex];
+        }
+    }
+}
+
 /*Addding random noise to the mesh*/
 void Mesh::addNoise(float maxnoise)
 {
@@ -582,7 +680,7 @@ void Mesh::umbrellaOperator(float lambda, int iterations)
     }
 }
 
-/*Catmul clark subdivision*/
+/*Catmull clark subdivision*/
 void Mesh::catmullClarkSubdivision()
 {
     std::map<int,std::vector<vec3>> facePoints;
@@ -771,8 +869,6 @@ void Mesh::catmullClarkSubdivision()
         twinInfo[old].second->twin=twinInfo[bhai].first;
         twinInfo[bhai].first->twin=twinInfo[old].second;
     }
-    // std::cout<<newFaces.size()<<std::endl;
-    // this->faces=newFaces;
     for(auto f:newFaces)
     {
         if(f.edge->twin==NULL || f.edge->next->next->next->twin==NULL)
@@ -794,6 +890,32 @@ void Mesh::catmullClarkSubdivision()
     }
     this->halfEdges=newEdges;
     this->faces=newFaces;   
+}
+
+void Mesh::addMesh(Mesh &m)
+{
+    int n=this->vertices.size();
+    for(auto x:m.vertices)
+    {
+        this->vertices.emplace_back(x);
+    }
+    for(auto x:m.faces)
+    {
+        this->faces.emplace_back(x);
+    }
+    for(auto x:m.halfEdges)
+    {
+        x->vertexIndex+=n;
+        this->halfEdges.emplace_back(x);
+    }
+}
+
+void Mesh::moveMesh(vec3 direction)
+{
+    for(auto &x:this->vertices)
+    {
+        x.position+=direction;
+    }
 }
 
 /* The below functions are AI generated*/
