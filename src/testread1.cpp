@@ -7,8 +7,8 @@ using namespace glm;
 int main() {
     //Create a unit square mesh
     // Mesh check=unitCube(3,3,3);
-    // Mesh check = parseObjFile("./meshes/spot_control_mesh.obj");
-    Mesh check = parseObjFile("./meshes/bunny_1k.obj");
+    Mesh check = parseObjFile("./meshes/spot_control_mesh.obj");
+    // Mesh check = parseObjFile("./meshes/bunny_1k.obj");
     // Mesh check = parseObjFile("./meshes/cube.obj");
 
     // check.triangulate();

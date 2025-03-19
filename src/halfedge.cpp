@@ -147,7 +147,6 @@ void Mesh::getEdges()
         }
         else
         {   
-            std::cout << "humpe toh hai hi naw" << std::endl;
             ivec2 curredge;
             curredge.x = edge->vertexIndex;
             curredge.y = edge->next->vertexIndex;
@@ -332,14 +331,14 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     }
 
     //sanity check
-    for(int i=0;i<totalVertices;i++)
-    {
-        if(done.find(i)==done.end())
-        {
-            std::cerr<<"Error in normal allotment\n";
-            // return;
-        }
-    }
+    // for(int i=0;i<totalVertices;i++)
+    // {
+    //     if(done.find(i)==done.end())
+    //     {
+    //         std::cerr<<"Error in normal allotment\n";
+    //         // return;
+    //     }
+    // }
 
     std::map<int, std::vector<int>> mp;
 

@@ -283,7 +283,7 @@ Mesh unitCube(int m, int n, int o)
 }
 
 int main() {
-    Mesh check=unitCube(1,1,1);
+    Mesh check=unitCube(3,3,3);
 
     V::Viewer v;
     if (!v.initialize("Mesh viewer", 640, 480)) {
