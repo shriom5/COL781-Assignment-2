@@ -7,8 +7,8 @@ using namespace glm;
 int main() {
     //Create a unit square mesh
     // Mesh check=unitCube(3,3,3);
-    Mesh check = parseObjFile("./meshes/spot_control_mesh.obj");
-    // Mesh check = parseObjFile("./meshes/bunny_1k.obj");
+    // Mesh check = parseObjFile("./meshes/spot_control_mesh.obj");
+    Mesh check = parseObjFile("./meshes/bunny_1k.obj");
     // Mesh check = parseObjFile("./meshes/cube.obj");
 
     // check.triangulate();
@@ -23,7 +23,7 @@ int main() {
     // check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
 
     check.catmullClarkSubdivision();
-    check.catmullClarkSubdivision();
+    // check.catmullClarkSubdivision();
 
     check.viewMesh2(v);
 

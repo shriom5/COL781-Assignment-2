@@ -4,6 +4,8 @@
 Functions for half edge data structure
 */
 
+#define _AREA_WEIGHTED_
+
 HalfEdge::HalfEdge(int index)
 {
     this->next=nullptr;
@@ -84,12 +86,10 @@ std::vector<HalfEdge*> MeshVertex::getAdjacentFaces()
         }
         else
         {
-            // std::cout<<current->twin->vertexIndex<<" ";
             current = current->twin->next;
         }
 
     }while(current!=start);
-    // std::cout<<std::endl;
     return adjacentFaces;
 }
 
@@ -114,13 +114,11 @@ std::vector<int> MeshVertex::getAdjacentVertices()
         }
         else
         {
-            // std::cout<<current->twin->vertexIndex<<" ";
             adjacentVertices.emplace_back(current->twin->vertexIndex);
             current = current->twin->next;
         }
 
     }while(current!=start);
-    // std::cout<<std::endl;
     return adjacentVertices;   
 }
 
@@ -146,7 +144,6 @@ void Mesh::getEdges()
             curredge.x = edge->vertexIndex;
             curredge.y = edge->twin->vertexIndex;
             edges.emplace_back(curredge);
-            // std::cout<<curredge.x<<" "<<curredge.y<<std::endl;
         }
         else
         {   
@@ -168,7 +165,6 @@ void Mesh::triangulate()
     for(auto face:faces)
     {
         std::vector<int> faceVertices = face.getFaceVertices();
-        // std::cout<<"reached here in face"<<std::endl;
         vertexPerFace.emplace_back(faceVertices);
         normals.emplace_back(face.normal);
         int n = faceVertices.size();
@@ -179,10 +175,8 @@ void Mesh::triangulate()
             triangle.y = faceVertices[i+1];
             triangle.z = faceVertices[i+2];
             triangles.emplace_back(triangle);
-            // std::cout<<triangle.x<<" "<<triangle.y<<" "<<triangle.z<<std::endl;
         }
     }
-    // std::cout<<"the number of faces is "<<faces.size()<<std::endl;
 }
 
 void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
@@ -194,19 +188,11 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         faces[i].normal = getFaceNormal(i);
     }
 
-    // std::cout<<"checking original vertices"<<std::endl;
-    // for(auto x:this->vertices)
-    // {
-    //     std::cout<<x.position.x<<" "<<x.position.y<<" "<<x.position.z<<std::endl;
-    // }
-
     int totalVertices=0, numberOfTriangles=this->triangles.size(), numberofEdges=this->edges.size();
     for(auto const x:vertexPerFace)
     {
         totalVertices+=x.size();
     }
-
-    // std::cout<<totalVertices<<std::endl;
 
     std::map<int,int> alias;
     int count=0;
@@ -222,11 +208,6 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         }
     }
 
-    // for(auto x:alias)
-    // {
-    //     std::cout<<x.first<<" "<<x.second<<std::endl;
-    // }
-
     if(count!=totalVertices)
     {
         std::cerr<<"Error in traingulating\n";
@@ -238,17 +219,30 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
     ivec3 renderTriangles[numberOfTriangles*sizeof(ivec3)];
     ivec2 renderEdges[numberofEdges*sizeof(ivec2)];
 
+    #ifdef _AREA_WEIGHTED_
+    std::map<int, vec3> wtnormals;
+    for(int i = 0; i < this->faces.size(); ++i) {
+        std::vector<int> verts = this->faces[i].getFaceVertices();
+        int vsz = verts.size();
+        for(int j = 0; j < vsz; ++j) {
+            vec3 vi = this->vertices[verts[j]].position - this->vertices[verts[(j + 1) % vsz]].position;
+            vec3 vin = this->vertices[verts[(j + 2) % vsz]].position - this->vertices[verts[(j + 1) % vsz]].position;
+            float denominator = length(vi) * length(vin);
+            denominator = denominator * denominator;
+            wtnormals[verts[(j + 1) % vsz]] += cross(vin, vi) / denominator;
+        }
+    }
+    #else
     std::map<int, std::vector<int>> mp;
-
     for(int i = 0; i < this->faces.size(); ++i) {
         for(auto p: this->faces[i].getFaceVertices()) {
             mp[p].emplace_back(i);
         }
     }
+    #endif
 
     count=0;
     int faceCount=0,triangleCount=0;
-    // std::cout<<"checking for vertices"<<std::endl;
     for(auto const x:vertexPerFace)
     {
         vec3 normal = this->normals[faceCount];
@@ -265,9 +259,12 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         for(auto const y:x)
         {
             renderVertices[count]=this->vertices[y].position;
-            // std::cout<<renderVertices[count].x<<" "<<renderVertices[count].y<<" "<<renderVertices[count].z<<std::endl;
             // renderNormals[count]=normal;
+            #ifdef _AREA_WEIGHTED_
+            renderNormals[count] = wtnormals[count];
+            #else 
             renderNormals[count] = getVertexNormal(mp[count]);
+            #endif
             count++;
         }
         faceCount++;
@@ -279,37 +276,6 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         currEdge.y=alias[this->edges[i].y];
         renderEdges[i]=currEdge;
     }
-
-    //Debug code
-
-    // std::cout<<totalVertices<<" "<<numberOfTriangles<<" "<<numberofEdges<<std::endl;
-
-    // std::cout<<"vertices"<<std::endl;
-
-    // for(int i=0;i<totalVertices;i++)
-    // {
-    //     std::cout<<renderVertices[i].x<<" "<<renderVertices[i].y<<" "<<renderVertices[i].z<<std::endl;
-    // }
-
-    // std::cout<<"triangles"<<std::endl;
-
-    // for(int i=0;i<numberOfTriangles;i++)
-    // {
-    //     std::cout<<renderTriangles[i].x<<" "<<renderTriangles[i].y<<" "<<renderTriangles[i].z<<std::endl;
-    // }
-
-    // std::cout<<"normals"<<std::endl;
-
-    // for(int i=0;i<totalVertices;i++)
-    // {
-    //     std::cout<<renderNormals[i].x<<" "<<renderNormals[i].y<<" "<<renderNormals[i].z<<std::endl;
-    // }
-
-    // std::cout<<"edges"<<std::endl;
-    // for(int i=0;i<numberofEdges;i++)
-    // {
-    //     std::cout<<renderEdges[i].x<<" "<<renderEdges[i].y<<std::endl;
-    // }
 
     viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
 
@@ -333,8 +299,6 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     ivec3 renderTriangles[numberOfTriangles*sizeof(ivec3)];
     ivec2 renderEdges[numberofEdges*sizeof(ivec2)];
 
-    // std::cout<<totalVertices<<" "<<numberOfTriangles<<" "<<numberofEdges<<std::endl;
-
     int count=0;
     int triangleCount=0;
     for(auto x:this->triangles)
@@ -344,7 +308,6 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
         currTriangle.y=x.y;
         currTriangle.z=x.z;
         renderTriangles[triangleCount]=currTriangle;
-        // std::cout<<renderTriangles[triangleCount].x<<" "<<renderTriangles[triangleCount].y<<" "<<renderTriangles[triangleCount].z<<std::endl;
         triangleCount++;
     }
 
@@ -369,7 +332,6 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
     }
 
     //sanity check
-    // std::cout<<"the size of normals is "<<count<<std::endl;
     for(int i=0;i<totalVertices;i++)
     {
         if(done.find(i)==done.end())
@@ -387,14 +349,37 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
         }
     }
 
-    // std::cout<<"checking for vertices"<<std::endl;
+    #ifdef _AREA_WEIGHTED_
+    std::map<int, vec3> wtnormals;
+    for(int i = 0; i < this->faces.size(); ++i) {
+        std::vector<int> verts = this->faces[i].getFaceVertices();
+        int vsz = verts.size();
+        for(int j = 0; j < vsz; ++j) {
+            vec3 vi = this->vertices[verts[j]].position - this->vertices[verts[(j + 1) % vsz]].position;
+            vec3 vin = this->vertices[verts[(j + 2) % vsz]].position - this->vertices[verts[(j + 1) % vsz]].position;
+            float denominator = length(vi) * length(vin);
+            denominator = denominator * denominator;
+            wtnormals[verts[(j + 1) % vsz]] += cross(vin, vi) / denominator;
+        }
+    }
+    #else
+    std::map<int, std::vector<int>> mp;
+    for(int i = 0; i < this->faces.size(); ++i) {
+        for(auto p: this->faces[i].getFaceVertices()) {
+            mp[p].emplace_back(i);
+        }
+    }
+    #endif
+
     count=0;
     for(auto x:this->vertices)
     {
         renderVertices[count]=x.position;
+        #ifdef _AREA_WEIGHTED_
+        renderNormals[count] = wtnormals[count];
+        #else 
         renderNormals[count] = getVertexNormal(mp[count]);
-        // renderNormals[count] = currNormals[count];
-        // std::cout<<renderVertices[count].x<<" "<<renderVertices[count].y<<" "<<renderVertices[count].z<<std::endl;
+        #endif
         count++;
     }
     for(int i=0;i<numberofEdges;i++)
@@ -404,34 +389,6 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
         currEdge.y=this->edges[i].y;
         renderEdges[i]=currEdge;
     }
-
-    //Debug code
-    // std::cout<<"debugging"<<std::endl;
-
-    // std::cout<<totalVertices<<" "<<numberOfTriangles<<" "<<numberofEdges<<std::endl;
-
-    // std::cout<<"vertices"<<std::endl;
-
-    // for(int i=0;i<totalVertices;i++)
-    // {
-    //     std::cout<<renderVertices[i].x<<" "<<renderVertices[i].y<<" "<<renderVertices[i].z<<std::endl;
-    // }
-
-    // std::cout<<"triangles"<<std::endl;
-
-    // for(int i=0;i<numberOfTriangles;i++)
-    // {
-    //     std::cout<<renderTriangles[i].x<<" "<<renderTriangles[i].y<<" "<<renderTriangles[i].z<<std::endl;
-    // }
-
-    // std::cout<<"normals"<<std::endl;
-
-    // for(int i=0;i<totalVertices;i++)
-    // {
-    //     std::cout<<renderNormals[i].x<<" "<<renderNormals[i].y<<" "<<renderNormals[i].z<<std::endl;
-    // }
-
-    // std::cout<<"reached successfully here"<<std::endl;
 
     viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
 
@@ -557,7 +514,6 @@ void Mesh::extrudeFace(vec3 point, float distance)
         std::cerr<<"No face found\n";
         return;
     }
-    std::cout<<"the closest face has index "<<idx<<std::endl;
     this->extrudeFace(idx,distance);
 }
 
@@ -585,13 +541,27 @@ vec3 Mesh::getFaceNormal(int idx)
 }
 
 vec3 Mesh::getVertexNormal(std::vector<int> adj) {
-    vec3 currnormal = vec3(0.0, 0.0, 0.0);
+    vec3 currnormal(0.0, 0.0, 0.0);
     for(auto x: adj) {
         currnormal += this->faces[x].normal;
     }
     currnormal = normalize(currnormal);
     return currnormal;
 }
+
+// vec3 Mesh::getVertexNormalWeighted(int vertIndex, std::vector<int> adj) {
+//     vec3 normal(0.0, 0.0, 0.0);
+//     vec3 vo = this->vertices[vertIndex].position;
+//     for(auto face:adj) {
+//         vec3 vto, vfrom;
+//         HalfEdge* curr = this->faces[face].edge;
+//         while(curr->next->vertexIndex != vertIndex) {
+//             curr = curr->next;
+//         }
+//         vto = this->vertices[curr->vertexIndex].position;
+
+//     }
+// }
 
 void Mesh::extrudeMultiple(std::vector<int> &indices, float dist)
 {
@@ -795,12 +765,6 @@ void Mesh::catmullClarkSubdivision()
         newPos[i]=m1*this->vertices[i].position+m2*adjFacepoints+m3*midEdge;
     }
 
-    // for(int i=0;i<numberofVertices;i++)
-    // {
-    //     std::cout<<this->vertices[i].position.x<<" "<<this->vertices[i].position.y<<" "<<this->vertices[i].position.z<<std::endl;
-    //     std::cout<<newPos[i].x<<" "<<newPos[i].y<<" "<<newPos[i].z<<std::endl;
-    // }
-
     for(int i=0;i<numberofVertices;i++) this->vertices[i].position=newPos[i];
 
     //Store the edge points for each halfEdge
@@ -823,7 +787,6 @@ void Mesh::catmullClarkSubdivision()
         {
             MeshVertex ep = MeshVertex(nullptr,p1);
             this->vertices.emplace_back(ep);
-            // std::cout<<"fresh edge point"<<std::endl;
             edgePoint[this->halfEdges[i]]=this->vertices.size()-1;
             edgePoint[this->halfEdges[i]->twin]=this->vertices.size()-1;
         }
@@ -918,25 +881,6 @@ void Mesh::catmullClarkSubdivision()
         }
         twinInfo[old].second->twin=twinInfo[bhai].first;
         twinInfo[bhai].first->twin=twinInfo[old].second;
-    }
-    for(auto f:newFaces)
-    {
-        if(f.edge->twin==NULL || f.edge->next->next->next->twin==NULL)
-        {
-            std::cout<<"type1"<<std::endl;
-        }
-        else if (f.edge->next->twin==NULL || f.edge->next->next->twin==NULL)
-        {
-            std::cout<<"type2"<<std::endl;
-        }
-    }
-    // std::cout<<this->vertices.size()<<std::endl;
-    for(int i=0;i<newEdges.size();i++)
-    {
-        if(newEdges[i]->twin==NULL)
-        {
-            std::cout<<"cooked "<<i<<std::endl;
-        }
     }
     this->halfEdges=newEdges;
     this->faces=newFaces;   
@@ -1058,12 +1002,10 @@ Mesh parseObjFile(const std::string &filename) {
             iss >> vn.x >> vn.y >> vn.z;
             normals.push_back(vn);
         } else if (op == "f") {
-            // std::cout << "new face" << std::endl;
             std::string vertexData;
             std::vector<int> vidx, tidx, nidx;
             while (iss >> vertexData) {
                 std::istringstream viss(vertexData);
-                // std::cout << vertexData << std::endl;
                 std::string token;
                 int indices[3] = {0, 0, 0};
                 int i = 0;
