@@ -178,7 +178,7 @@ void Mesh::triangulate()
     }
 }
 
-void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
+void Mesh::viewMesh()
 {
     this->getEdges();
     this->triangulate();
@@ -276,13 +276,13 @@ void Mesh::viewMesh(COL781::Viewer::Viewer &viewer)
         renderEdges[i]=currEdge;
     }
 
-    viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
+    // viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
 
-    viewer.view();
+    // viewer.view();
     
 }
 
-void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
+void Mesh::viewMesh2()
 {
     this->getEdges();
     this->triangulate();
@@ -391,9 +391,9 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
         renderEdges[i]=currEdge;
     }
 
-    viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
+    // viewer.setMesh(totalVertices,numberOfTriangles,numberofEdges,renderVertices,renderTriangles,renderEdges,renderNormals);
 
-    viewer.view();
+    // viewer.view();
     
 }
 

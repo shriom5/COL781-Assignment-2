@@ -1,7 +1,7 @@
 //Half edge data structure
 
 #define GLM_ENABLE_EXPERIMENTAL
-#include "viewer.hpp"
+// #include "viewer.hpp"
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtx/polar_coordinates.hpp>
@@ -65,8 +65,8 @@ class Mesh{
     Mesh(std::vector<HalfEdge*>, std::vector<MeshVertex>, std::vector<MeshFace>);
     void getEdges();
     void triangulate();
-    void viewMesh(COL781::Viewer::Viewer &viewer);
-    void viewMesh2(COL781::Viewer::Viewer &viewer);
+    void viewMesh();
+    void viewMesh2();
     void extrudeFace(int faceIndex, float distance);
     void extrudeFace(vec3 point, float distance);
     void extrudeMultiple(std::vector<int> &indices, float dist);
