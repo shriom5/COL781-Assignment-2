@@ -60,6 +60,7 @@ class Mesh{
     std::vector<ivec2> edges;
     std::vector<vec3> normals;
     std::vector<std::vector<int>> vertexPerFace;
+    std::vector<vec3> computedNormals;
 
     Mesh(std::vector<HalfEdge*>, std::vector<MeshVertex>, std::vector<MeshFace>);
     void getEdges();

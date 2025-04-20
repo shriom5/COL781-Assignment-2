@@ -23,7 +23,7 @@ int main() {
     // check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
 
     check.catmullClarkSubdivision();
-    // check.catmullClarkSubdivision();
+    check.catmullClarkSubdivision();
 
     check.viewMesh2(v);
 

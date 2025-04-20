@@ -298,7 +298,7 @@ int main() {
     // check.extrudeFace(vec3(-1.5,0.0,0.0),0.4);
 
     check.addNoise(0.03);
-    check.umbrellaOperator(0.1,50);
+    check.umbrellaOperator(0.01,50);
 
     // check.printAdjacentVertices(); 
 

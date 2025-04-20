@@ -376,8 +376,10 @@ void Mesh::viewMesh2(COL781::Viewer::Viewer &viewer)
         renderVertices[count]=x.position;
         #ifdef _AREA_WEIGHTED_
         renderNormals[count] = wtnormals[count];
+        this->computedNormals.push_back(wtnormals[count]);
         #else 
         renderNormals[count] = getVertexNormal(mp[count]);
+        this->computedNormals.push_back(getVertexNormal(mp[count]));
         #endif
         count++;
     }
